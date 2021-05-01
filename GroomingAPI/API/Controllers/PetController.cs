@@ -6,13 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API.Controllers
+namespace GroomingAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class GroomerController : Controller
+    public class PetController : Controller
     {
         private GroomingDbContext dbContext;
-        public GroomerController(GroomingDbContext dbContext)
+
+        public PetController(GroomingDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
@@ -20,9 +21,8 @@ namespace API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var result = await dbContext.Groomers.ToListAsync();
+            var result = await dbContext.Pets.ToListAsync();
             return Ok(result);
         }
-
     }
 }

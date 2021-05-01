@@ -1,4 +1,5 @@
 ﻿using API.Data;
+using API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -6,13 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API.Controllers
+namespace GroomingAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class GroomerController : Controller
+    public class CustomerController : Controller
     {
         private GroomingDbContext dbContext;
-        public GroomerController(GroomingDbContext dbContext)
+        public CustomerController(GroomingDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
@@ -20,9 +21,8 @@ namespace API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var result = await dbContext.Groomers.ToListAsync();
+            var result = await dbContext.Customers.ToListAsync<Customer>();
             return Ok(result);
         }
-
     }
 }
