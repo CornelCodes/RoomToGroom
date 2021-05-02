@@ -24,5 +24,12 @@ namespace GroomingAPI.Controllers
             var result = await dbContext.Customers.ToListAsync<Customer>();
             return Ok(result);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(Customer customer)
+        {
+            var result = dbContext.Customers.Add(customer);
+            return Ok(result);
+        }
     }
 }

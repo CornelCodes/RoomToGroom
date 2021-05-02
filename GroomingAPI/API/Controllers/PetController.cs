@@ -1,4 +1,5 @@
 ﻿using API.Data;
+using API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -24,5 +25,13 @@ namespace GroomingAPI.Controllers
             var result = await dbContext.Pets.ToListAsync();
             return Ok(result);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(Pet pet)
+        {
+            var result = dbContext.Pets.Add(pet);
+            return Ok(result);
+        }
+
     }
 }

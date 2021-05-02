@@ -1,4 +1,5 @@
 ﻿using API.Data;
+using API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -24,5 +25,11 @@ namespace API.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Post(Groomer groomer)
+        {
+            var result = dbContext.Groomers.Add(groomer);
+            return Ok(result);
+        }
     }
 }
