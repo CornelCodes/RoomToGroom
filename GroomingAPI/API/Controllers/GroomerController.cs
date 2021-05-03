@@ -19,9 +19,17 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get(string email, string password)
         {
-            var result = await dbContext.Groomers.ToListAsync();
+            var groomers = await dbContext.Groomers.ToListAsync();
+            Groomer result = null;
+            foreach (var user in groomers)
+            {
+                if(user.Email == email && user.Password == password)
+                {
+                    result = user;
+                }
+            }
             return Ok(result);
         }
 

@@ -1,4 +1,9 @@
 import { createApp } from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 import App from './App.vue'
 
-createApp(App).mount('#app')
+window.axios = axios
+axios.defaults.baseURL = 'https://localhost:5001/'
+
+createApp(App).use(VueAxios, axios).mount('#app')
