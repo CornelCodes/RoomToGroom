@@ -1,4 +1,5 @@
 ﻿using API.Data;
+using API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,9 +19,24 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(string email, string password)
         {
-            var result = await dbContext.Groomers.ToListAsync();
+            var groomers = await dbContext.Groomers.ToListAsync();
+            Groomer result = null;
+            foreach (var user in groomers)
+            {
+                if(user.Email == email && user.Password == password)
+                {
+                    result = user;
+                }
+            }
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(Groomer groomer)
+        {
+            var result = dbContext.Groomers.Add(groomer);
             return Ok(result);
         }
     }
