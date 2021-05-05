@@ -1,13 +1,16 @@
 <template>
 <div>
-<SignIn/>
+<NavBar/>
+<Dashboard/>
 </div>
 </template>
 
 <script>
+//Import components
 import SignIn from "./components/SignIn"
 import NavBar from "./components/NavBar"
 import Dashboard from "./components/Dashboard"
+
 export default {
   name: 'App',
   components: {
