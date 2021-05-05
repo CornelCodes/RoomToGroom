@@ -1,6 +1,5 @@
 <template>
 <header>
-  <h1>Dashboard</h1>
 </header>
 <div class="calendar">
 
@@ -11,16 +10,10 @@
 export default {
 data(){
   return{
-    days: [],
 
   }
 },
 methods:{
-  getAllDays(){
-    for(i = 0; i <= 31; i++){
-
-    }
-  }
 }
 }
 </script>
