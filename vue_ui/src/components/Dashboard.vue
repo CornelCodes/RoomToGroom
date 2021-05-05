@@ -2,11 +2,12 @@
 <header>
 </header>
 <div class="calendar">
-
+<AppointmentCalendar/>
 </div>
 </template>
 
 <script>
+import AppointmentCalendar from './AppointmentCalendar'
 export default {
 data(){
   return{
@@ -14,6 +15,9 @@ data(){
   }
 },
 methods:{
+},
+components:{
+  AppointmentCalendar
 }
 }
 </script>
