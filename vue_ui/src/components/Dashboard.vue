@@ -9,6 +9,9 @@
 <script>
 import AppointmentCalendar from './AppointmentCalendar'
 export default {
+  props:{
+    user: Object,
+  },
 data(){
   return{
 
@@ -24,6 +27,7 @@ components:{
 
 <style>
 *{
+  z-index: 1;
   margin: 0;
   padding: 0;
 }

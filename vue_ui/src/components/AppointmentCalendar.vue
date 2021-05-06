@@ -56,6 +56,9 @@ mounted(){
 </script>
 
 <style scoped>
+*{
+    z-index: 0;
+}
 .addButton{
     position: fixed;
     bottom: 20px;

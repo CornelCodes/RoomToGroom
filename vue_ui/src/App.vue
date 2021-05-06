@@ -1,7 +1,9 @@
 <template>
 <div>
-<NavBar/>
-<Dashboard/>
+<NavBar @userUpdated="updateUser"/>
+<div v-if="user != null">
+  <Dashboard :user="user"/>
+</div>
 </div>
 </template>
 
@@ -22,14 +24,13 @@ export default {
     return{
       userLoggedIn: false,
       isRegistering: false,
-      users: [],
+      user: null,
     }
   },
-  created(){
-    
-  },
   methods:{
-    
+    updateUser(value){
+      this.user = value;
+    }
   },
 }
 </script>
