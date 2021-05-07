@@ -4,6 +4,7 @@
 <div v-if="user != null">
   <Dashboard :user="user"/>
 </div>
+<CustomerList/>
 </div>
 </template>
 
@@ -12,6 +13,8 @@
 import SignIn from "./components/SignIn"
 import NavBar from "./components/NavBar"
 import Dashboard from "./components/Dashboard"
+import PetList from './components/PetList'
+import CustomerList from './components/CustomerList.vue'
 
 export default {
   name: 'App',
@@ -19,6 +22,8 @@ export default {
     NavBar,
     SignIn,
     Dashboard,
+    CustomerList,
+    PetList
   },
   data(){
     return{

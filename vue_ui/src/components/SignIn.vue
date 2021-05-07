@@ -45,25 +45,9 @@ data(){
     }
 },
 methods:{
-    login(){
-      axios.get('/api/Groomer',{
-          params:{
-              email: this.email,
-              password: this.password
-          }
-      })
-    .then(res => {
-      if(res != null){
-		  console.log(res)
-        this.user = res.data
-		this.$emit('userUpdated', this.user)
-      }
-      else{
-        console.log("User does not exist")
-      }
-    })
-    },
-}
+
+},
+
 }
 </script>
 
