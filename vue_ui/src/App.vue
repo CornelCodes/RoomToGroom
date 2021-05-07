@@ -1,35 +1,31 @@
 <template>
-<div>
+<div class="header">
 <NavBar/>
-<Dashboard/>
+</div>
+<div class="currentView">
+  <router-view></router-view>
+</div>
+<div class="footer">
+  <Footer/>
 </div>
 </template>
 
 <script>
 //Import components
-import SignIn from "./components/SignIn"
-import NavBar from "./components/NavBar"
-import Dashboard from "./components/Dashboard"
+import NavBar from './views/Navigation.vue'
+import Footer from './components/Footer'
 
 export default {
   name: 'App',
   components: {
     NavBar,
-    SignIn,
-    Dashboard,
+    Footer
   },
   data(){
     return{
-      userLoggedIn: false,
-      isRegistering: false,
-      users: [],
     }
   },
-  created(){
-    
-  },
   methods:{
-    
   },
 }
 </script>

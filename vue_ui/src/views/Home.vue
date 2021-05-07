@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import AppointmentCalendar from './AppointmentCalendar'
+import AppointmentCalendar from '../components/AppointmentCalendar'
 export default {
   props:{
     user: Object,

@@ -1,7 +1,4 @@
 <template>
-<div>
-	<p v-if="user != null">Hello {{user.name}}</p>
-</div>
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
 		<form action="#">
@@ -29,7 +26,6 @@
 				<button class="ghost" id="signIn">Sign In</button>
 			</div>
 			<div class="overlay-panel overlay-right">
-				<h1>Hello, Friend!</h1>
 				<p>Enter your personal details and start journey with us</p>
 				<button class="ghost" id="signUp" type="button" @click="toggleSignUp">Sign Up</button>
 			</div>
@@ -44,33 +40,18 @@ data(){
     return{
         email: null,
         password: null,
-        user: null,
-		signUpActive: false
+		signUpActive: false,
+		user: {}
     }
 },
 methods:{
-    login(){
-      axios.get('/api/Groomer',{
-          params:{
-              email: this.email,
-              password: this.password
-          }
-      })
-    .then(res => {
-      if(res != null){
-		  console.log("Got user")
-        this.user = res.data
-      }
-      else{
-        console.log("User does not exist")
-      }
-    })
-    },
-}
+
+},
+
 }
 </script>
 
-<style>
+<style >
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
 * {
@@ -118,8 +99,8 @@ a {
 
 button {
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+	border: 1px solid black;
+	background-color: #0088a9;
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
@@ -161,12 +142,16 @@ input {
 	width: 100%;
 }
 
+#container{
+	z-index: 99 !important;
+}
+
 .container {
 	background-color: #fff;
 	border-radius: 10px;
   	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
 			0 10px 10px rgba(0,0,0,0.22);
-	position: relative;
+	position: fixed;
 	overflow: hidden;
 	width: 768px;
 	max-width: 100%;
@@ -232,9 +217,9 @@ input {
 }
 
 .overlay {
-	background: #FF416C;
-	background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-	background: linear-gradient(to right, #FF4B2B, #FF416C);
+	background: #0088a9;
+	background: -webkit-linear-gradient(to right, #0088a9,black);
+	background: linear-gradient(to bottom, #0088a9, black);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 0 0;

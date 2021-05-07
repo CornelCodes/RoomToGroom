@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace API.Migrations
+namespace GroomingAPI.Migrations
 {
     [DbContext(typeof(GroomingDbContext))]
     partial class GroomingDbContextModelSnapshot : ModelSnapshot
@@ -47,6 +47,8 @@ namespace API.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("CustomerID");
+
+                    b.HasIndex("GroomerID");
 
                     b.ToTable("Customers");
                 });
@@ -103,7 +105,54 @@ namespace API.Migrations
 
                     b.HasKey("PetID");
 
+                    b.HasIndex("CustomerID");
+
                     b.ToTable("Pets");
+                });
+
+            modelBuilder.Entity("GroomingAPI.Models.Appointment", b =>
+                {
+                    b.Property<long>("AppointmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AppointmentId");
+
+                    b.ToTable("Appointment");
+                });
+
+            modelBuilder.Entity("API.Models.Customer", b =>
+                {
+                    b.HasOne("API.Models.Groomer", null)
+                        .WithMany("Customers")
+                        .HasForeignKey("GroomerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("API.Models.Pet", b =>
+                {
+                    b.HasOne("API.Models.Customer", null)
+                        .WithMany("Pets")
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("API.Models.Customer", b =>
+                {
+                    b.Navigation("Pets");
+                });
+
+            modelBuilder.Entity("API.Models.Groomer", b =>
+                {
+                    b.Navigation("Customers");
                 });
 #pragma warning restore 612, 618
         }
