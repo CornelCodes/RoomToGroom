@@ -1,41 +1,31 @@
 <template>
-<div>
-<NavBar @userUpdated="updateUser"/>
-<div v-if="user != null">
-  <Dashboard :user="user"/>
+<div class="header">
+<NavBar/>
 </div>
-<CustomerList/>
+<div class="currentView">
+  <router-view></router-view>
+</div>
+<div class="footer">
+  <Footer/>
 </div>
 </template>
 
 <script>
 //Import components
-import SignIn from "./components/SignIn"
-import NavBar from "./components/NavBar"
-import Dashboard from "./components/Dashboard"
-import PetList from './components/PetList'
-import CustomerList from './components/CustomerList.vue'
+import NavBar from './views/Navigation.vue'
+import Footer from './components/Footer'
 
 export default {
   name: 'App',
   components: {
     NavBar,
-    SignIn,
-    Dashboard,
-    CustomerList,
-    PetList
+    Footer
   },
   data(){
     return{
-      userLoggedIn: false,
-      isRegistering: false,
-      user: null,
     }
   },
   methods:{
-    updateUser(value){
-      this.user = value;
-    }
   },
 }
 </script>
