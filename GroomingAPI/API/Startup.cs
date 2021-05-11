@@ -30,6 +30,15 @@ namespace API
         {
             services.AddDbContext<GroomingDbContext>(options => 
                 options.UseSqlite(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddCors(options => 
+            {
+                options.AddPolicy("AllowOrigin", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                });
+            });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -50,6 +59,8 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("AllowOrigin");
 
             app.UseAuthorization();
 
