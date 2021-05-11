@@ -1,22 +1,19 @@
 <template>
   <div class="container">
-      <vue-cal 
-      :time="false"
-      :disable-views="['years', 'year']">
-      </vue-cal>
-      <div class="appointmentOverview">
-          <div class="grid-container">
-              <div class="grid-header">Overview</div>
-              <ul v-for="appointment in appointments" :key="appointment.AppointmentId">
-                  <li>
-                      {{appointment.time}}
-                      {{appointment.description}}
-                  </li>
-              </ul>
-              <div class="addButton">
-                  <button type="button">Add</button>
-              </div>
-          </div>
+      <div class="calendar">
+        <vue-cal 
+        :time="false"
+        :disable-views="['years', 'year']">
+        </vue-cal>
+      </div>
+      <div class="appointment-list">
+          <ul class="list-group">
+              <li class="list-group-item">Test Appointment</li>
+              <li class="list-group-item">Test Appointment</li>
+              <li class="list-group-item">Test Appointment</li>
+              <li class="list-group-item">Test Appointment</li>
+              <li class="list-group-item">Test Appointment</li>
+          </ul>
       </div>
   </div>
 </template>
@@ -56,39 +53,29 @@ mounted(){
 </script>
 
 <style scoped>
-.addButton{
-    position: fixed;
-    bottom: 20px;
-    right: 10px;
+*{
+    z-index: 0;
 }
-.container{
-    position: fixed;
-    top: 130px;
-    left: 0;
-    float: left;
+
+.calendar{
     width: 80%;
-    height: 250px;
+    height: 100%;
 }
-.appointmentOverview{
-    background: black;
-    color: white;
-    float: right;
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    margin: 0 0 10px 0;
-    padding: 10px 0 10px 0;
+
+.appointment-list{
     width: 20%;
-    height: 70%;
-    border: 1px solid black;
+    position: absolute;
+    right: 1%;
+    top: 20%;
+    height: 100%;
 }
-.grid-header{
+
+.appointment-list li{
+    font-size: small;
     text-align: center;
-    background: grey;
+    width: 100%;
     margin: 0;
     padding: 0;
-    border-bottom: 1px solid white;
-    border-width: 100%;
 }
 
 </style>

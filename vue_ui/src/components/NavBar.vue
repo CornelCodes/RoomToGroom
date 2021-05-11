@@ -9,21 +9,50 @@
     </ul>
   </nav>
   <div v-if="signedIn">
-    <a class="cta" href="#"><button type="button">Sign Out</button></a>
+    <a class="cta" href="#"><button type="button" >Sign Out</button></a>
   </div>
   <div v-else>
-    <a class="cta" href="#"><button type="button">Sign In</button></a>
+    <a class="cta" href="#"><button type="button" @click="toggleShowSignIn">Sign In</button></a>
+  </div>
+  <div class="signIn" v-if="showSignIn">
+    <SignIn @userUpdated='updateUser'/>
   </div>
 </div>
 </template>
 
 <script>
+import SignIn from './SignIn'
 export default {
 data(){
   return{
     signedIn: false,
+    showSignIn: false,
+    showCustomers: false,
+    showPets: false,
+    showDashboard: true,
+    user: null,
   }
-}
+},
+methods:{
+  toggleShowSignIn(){
+    console.log("Clicked")
+    if(this.showSignIn === false){
+      this.showSignIn = true;
+    }
+    else{
+      this.showSignIn = false;
+    }
+  },
+  updateUser(value){
+    if(value != null){
+      this.user = value;
+      this.$emit('userUpdated', this.user)
+    }
+  }
+},
+components:{
+  SignIn
+},
 }
 </script>
 
@@ -44,6 +73,11 @@ li, a, button{
   text-decoration: none;
 }
 
+.userGreeting{
+  color: white;
+  position: fixed;
+  top: 0;
+}
 .header{
   position: fixed;
   top: 0;
@@ -90,5 +124,10 @@ button {
 
 button:hover{
   background-color: rgba(0, 136, 169, 0.8);
+}
+.signIn{
+  z-index: 1;
+  position: fixed;
+
 }
 </style>
