@@ -1,12 +1,12 @@
 <template>
-<div class="header">
-<NavBar/>
+<div class="top">
+<NavBar :signedIn="signedIn" @signed-in="setUser"/>
 </div>
 <div class="currentView">
   <router-view></router-view>
 </div>
 <div class="footer">
-  <Footer/>
+  <!-- <Footer/> -->
 </div>
 </template>
 
@@ -23,9 +23,15 @@ export default {
   },
   data(){
     return{
+      user: null,
+      signedIn: false,
     }
   },
   methods:{
+    setUser(value){
+      this.signedIn = true;
+      user = value;
+    }
   },
 }
 </script>
@@ -38,5 +44,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.top{
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 </style>

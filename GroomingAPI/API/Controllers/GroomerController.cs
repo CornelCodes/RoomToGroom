@@ -21,6 +21,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(string email, string password)
         {
+            var state = ModelState;
             var groomers = await dbContext.Groomers.ToListAsync();
             Groomer result = null;
             foreach (var user in groomers)

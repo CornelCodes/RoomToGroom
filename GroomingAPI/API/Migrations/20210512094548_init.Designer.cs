@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GroomingAPI.Migrations
 {
     [DbContext(typeof(GroomingDbContext))]
-    [Migration("20210505105223_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210512094548_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -90,6 +90,9 @@ namespace GroomingAPI.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Allergies")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Breed")
                         .HasColumnType("TEXT");
 
                     b.Property<long>("CustomerID")
