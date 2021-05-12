@@ -20,7 +20,7 @@ namespace GroomingAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get()
         {
             var result = await dbContext.Pets.ToListAsync();
             return Ok(result);

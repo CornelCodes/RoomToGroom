@@ -1,27 +1,40 @@
 <template>
-  <div class="header">
-    <div class="customer-display">
-      <div class="selected-customer">
-
-      </div>
-    </div>
-      <div class="customer-list">
-        <ul class="list-group" >
-          <li class="list-group-item" v-for="customer in customers" :key="customer.name">
-            {{customer.name}}
-          </li>
-        </ul>
-          <button type="button" class="btn btn-primary">Edit</button>
-      </div>
+<div v-if="showModal">
+  <CreateCustomerModal/>
+</div>
+<div v-else>
+<div class="container" id="header">
+  <div class="customer-list">
+    Customer List
   </div>
-  <div class="add-customer">
-      <div v-if="showModal">
-        <CreateCustomerModal/>
-      </div>
-    <div v-else>
-      <button type="button" class="btn btn-secondary" @click="toggleShowModal">Add Customer</button>
-    </div>
+  <div class="selected-customer">
+    Selected Customer
   </div>
+</div>
+<div class="container" id="content">
+  <div class="list">
+    <ul class="list-group" id="customers">
+      <li class="list-group-item" v-for="customer in customers" :key="customer.name" @click="getSelectedCustomer(customer)">{{customer.name}} {{customer.surname}}
+        <button type="button" class="btn btn-outline-secondary">Edit</button>
+      </li>
+    </ul>
+  </div>
+  <div class="overview">
+    <ul v-if="selectedCustomer != null">
+      <li>Name:{{selectedCustomer.name}}</li>
+      <li>Surname:{{selectedCustomer.surname}}</li>
+      <li>Email:{{selectedCustomer.email}}</li>
+      <li>Contact No:{{selectedCustomer.contactNumber}}</li>
+      <li>Customer Since:{{selectedCustomer.customerSince}}</li>
+      <li>Groom Day:{{selectedCustomer.groomDay}}</li>
+      <li>Groom Frequency:{{selectedCustomer.groomFrequency}}</li>
+    </ul>
+  </div>
+</div>
+</div>
+<div class="container-fluid" id="actions" v-if="showModal === false">
+  <button type="button" class="btn btn-outline-primary btn-lg btn-block" @click="toggleShowModal">Create New</button>
+</div>
 </template>
 
 <script>
@@ -30,7 +43,8 @@ export default {
   data(){
     return{
       customers: [],
-      showModal: false,
+      selectedCustomer: null,
+      showModal: false
     }
   },
   components:{
@@ -48,47 +62,53 @@ export default {
     toggleShowModal(){
       this.showModal = !this.showModal;
     },
+    getSelectedCustomer(customer){
+      this.selectedCustomer = customer
+    }
   },
   mounted(){
     this.getCustomers();
-  }
-
+  },
 }
 </script>
 
-<style>
+<style scoped>
 
-.modal{
-  width: 90%;
+.container{
+  display: flex;
+  padding-top: 10px;
+}
+
+.customer-list{
+  flex: 1;
+  text-align: center;
   border: 1px solid black;
 }
 
-.add-customer{
-  position: sticky;
-  bottom: 0;
-  width: 100%;
+.list{
+  flex: 1;
 }
 
-.add-customer button{
-  color: white;
-}
-
-.customer-display{
+.selected-customer{
+  width: 30%;
+  text-align: center;
   border: 1px solid black;
-  display: block;
-  margin: auto;
-  width: 90%;
 }
-.list-group-item button{
-  margin: 0;
-  padding: 0;
-  right: 10%;
+
+.overview{
+  width: 30%;
+}
+
+#customers li{
+  text-align: left;
+}
+
+#customers button{
   float: right;
 }
 
-.add-customer button{
-  margin: 10px;
-  padding: 10px;
-  border: 10px;
+.overview ul{
+  list-style-type: none;
+  text-align: left;
 }
 </style>

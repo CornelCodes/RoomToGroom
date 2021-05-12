@@ -29,7 +29,7 @@ namespace GroomingAPI.Controllers
 
         [HttpGet]
         [Route("/api/[controller]/[action]/id")]
-        public async Task<IActionResult> Get(long id)
+        public async Task<IActionResult> GetById(long id)
         {
             var result = await dbContext.Customers.SingleAsync(c => c.CustomerID == id);
             return Ok(result);

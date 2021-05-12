@@ -5,8 +5,6 @@ import App from './App.vue'
 import Home from './views/Home.vue'
 import Customers from './views/Customers.vue'
 import Pets from './views/Pets.vue'
-import Login from './views/Login.vue'
-import Register from './views/Register.vue'
 
 //Bootstrap
 import Bootstrap from 'bootstrap'
@@ -33,17 +31,6 @@ const routes = [
         name: 'Customers',
         component: Customers
     },
-    {
-        path: '/Login',
-        name: 'Login',
-        component: Login
-    },
-    {
-        path: '/Register',
-        name: 'Register',
-        component: Register
-    },
-
 ]
 
 const router = createRouter({

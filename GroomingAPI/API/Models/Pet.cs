@@ -15,6 +15,7 @@ namespace API.Models
         public long PetID { get; set; }
         [Required]
         public string Name { get; set; }
+        public string Breed { get; set; }
         public long CustomerID { get; set; }
         public string TagSerialNumber { get; set; }
         public string VisualDescription { get; set; }

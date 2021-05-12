@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GroomingAPI.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -71,6 +71,7 @@ namespace GroomingAPI.Migrations
                     PetID = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Breed = table.Column<string>(type: "TEXT", nullable: true),
                     CustomerID = table.Column<long>(type: "INTEGER", nullable: false),
                     TagSerialNumber = table.Column<string>(type: "TEXT", nullable: true),
                     VisualDescription = table.Column<string>(type: "TEXT", nullable: true),

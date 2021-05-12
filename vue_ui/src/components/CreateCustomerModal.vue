@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="container-fluid">
   <form>
       <div class="form-row">
           <div class="form-group col-md-6">
@@ -51,7 +51,10 @@ data(){
       groomDay: '',
       groomFrequency: ''
     },
+    showModal: false
   }
+},
+props:{
 },
 methods:{
   createCustomer(){
@@ -72,13 +75,13 @@ methods:{
     axios.post('api/Customer', newCustomer, {headers:headers})
     .then(res => {
       console.log("Received: " + res)
+      this.showModal = false;
     })
     .catch(err => {
       console.log("Error: " + err)
     })
   },
 },
-
 }
 </script>
 

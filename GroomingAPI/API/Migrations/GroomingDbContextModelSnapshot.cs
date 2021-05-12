@@ -90,6 +90,9 @@ namespace GroomingAPI.Migrations
                     b.Property<string>("Allergies")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Breed")
+                        .HasColumnType("TEXT");
+
                     b.Property<long>("CustomerID")
                         .HasColumnType("INTEGER");
 

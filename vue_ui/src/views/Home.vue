@@ -1,6 +1,4 @@
 <template>
-<header>
-</header>
 <div class="calendar">
 <AppointmentCalendar/>
 </div>
@@ -30,14 +28,5 @@ components:{
   z-index: 1;
   margin: 0;
   padding: 0;
-}
-header{
-  position: fixed;
-  left: 0px;
-  top: 120px;
-  margin:10px;
-  padding: 10px;
-  border: 50px;
-  border-width: 100px;
 }
 </style>
