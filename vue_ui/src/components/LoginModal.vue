@@ -10,18 +10,10 @@
       <input type="password" required="true" v-model="password">
       <label>Password</label>
     </div>
-    <a @click="submitLogin">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
+    <a @click="login">
       Submit
     </a>
-    <a href="#">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
+    <a href="Register">
       Register
     </a>
   </form>
@@ -33,11 +25,12 @@ export default {
 data(){
   return{
     email: '',
-    password: ''
+    password: '',
+    name: ''
   }
 },
 methods:{
-  submitLogin(){
+  login(){
     if(this.email != '' && this.password != ''){
       this.$emit('login-submit', this.email, this.password)
     }

@@ -16,7 +16,7 @@ namespace API.Data
             this.Database.EnsureCreatedAsync();
         }
 
-        public DbSet<Groomer> Groomers { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Pet> Pets { get; set; }
         public DbSet<Appointment> Appointments { get; set; }

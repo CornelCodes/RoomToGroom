@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace API.Models
 {
-    [Table("Groomers")]
-    public class Groomer
+    [Table("Users")]
+    public class User
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long GroomerID { get; set; }
+        public long UserId { get; set; }
         [Required]
         [MaxLength(200)]
         public string Name { get; set; }
