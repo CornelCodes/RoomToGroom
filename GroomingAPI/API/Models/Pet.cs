@@ -12,11 +12,11 @@ namespace API.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long PetID { get; set; }
+        public long PetId { get; set; }
         [Required]
         public string Name { get; set; }
         public string Breed { get; set; }
-        public long CustomerID { get; set; }
+        public long CustomerId { get; set; }
         public string TagSerialNumber { get; set; }
         public string VisualDescription { get; set; }
         public string Allergies { get; set; }

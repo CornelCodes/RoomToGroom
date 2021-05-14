@@ -33,6 +33,9 @@ export default {
       user = value;
     }
   },
+  mounted(){
+    
+  }
 }
 </script>
 

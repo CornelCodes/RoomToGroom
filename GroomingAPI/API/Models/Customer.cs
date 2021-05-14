@@ -31,8 +31,8 @@ namespace API.Models
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long CustomerID { get; set; }
-        public long GroomerID { get; set; }
+        public long CustomerId { get; set; }
+        public long UserId { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Email { get; set; }

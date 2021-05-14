@@ -5,6 +5,8 @@ import App from './App.vue'
 import Home from './views/Home.vue'
 import Customers from './views/Customers.vue'
 import Pets from './views/Pets.vue'
+import Login from './views/Login.vue'
+import Register from './views/Register.vue'
 
 //Bootstrap
 import Bootstrap from 'bootstrap'
@@ -18,6 +20,16 @@ axios.defaults.baseURL = 'https://localhost:5001/'
 const routes = [
     {
         path: '/',
+        name: 'Login',
+        component: Login
+    },
+    {
+        path: '/Register',
+        name: 'Register',
+        component: Register
+    },
+    {
+        path: '/Home',
         name: 'Home',
         component: Home
     },
