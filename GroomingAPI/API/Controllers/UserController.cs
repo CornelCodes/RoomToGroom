@@ -21,14 +21,14 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Login([FromBody]LoginModel login) 
+        public async Task<IActionResult> Login([FromBody]LoginModel loginModel) 
         {
             var state = ModelState;
             var users = await dbContext.Users.ToListAsync();
             User result = null;
             foreach (var user in users)
             {
-                if (user.Email == login.Email && user.Password == login.Password)
+                if (user.Email == loginModel.Email && user.Password == loginModel.Password)
                 {
                     result = user;
                 }
@@ -38,18 +38,19 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Register([FromBody]User user)
+        public async Task<IActionResult> Register([FromBody]RegisterModel registerModel)
         {
             var state = ModelState;
             var result = await dbContext.Users.AddAsync(new User()
             {
-                Name = user.Name,
-                Email = user.Email,
-                Password = user.Password,
+                Name = registerModel.Name,
+                Email = registerModel.Email,
+                Password = registerModel.Password,
                 RegisterDate = DateTime.Now,
                 LastLogin = DateTime.Now,
                 Customers = null
             });
+            await dbContext.SaveChangesAsync();
 
             return Ok(result);
         }

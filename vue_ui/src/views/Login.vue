@@ -31,6 +31,7 @@ export default {
       .then(res => {
         console.log("Success:\n" + res.data)
         this.user = res.data;
+        this.$store.commit('setUser', this.user)
         this.$router.push({ path: 'Home'});
       })
       .catch(err => {

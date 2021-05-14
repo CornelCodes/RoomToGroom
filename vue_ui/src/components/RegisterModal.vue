@@ -14,7 +14,7 @@
       <input type="password" required="true" v-model="password">
       <label>Password</label>
     </div>
-    <a href='Home'>
+    <a @click="register">
       Submit
     </a>
     <a href="/">
@@ -26,7 +26,23 @@
 
 <script>
 export default {
-    
+  data(){
+    return{
+      name: '',
+      email: '',
+      password: '',
+    }
+  },
+  methods:{
+    register(){
+      if(this.name != '' && this.email != '' && this.password != ''){
+        this.$emit('submit-register', this.name, this.email, this.password)
+      }
+      else{
+        alert('Please enter all fields')
+      }
+    }
+  }
 }
 </script>
 
