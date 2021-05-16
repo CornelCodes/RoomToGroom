@@ -1,8 +1,17 @@
 import { createApp } from 'vue'
+
+//Axios
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+window.axios = axios
+axios.defaults.baseURL = 'https://localhost:5001/'
+
+//Vuex
 import { createStore } from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
+import auth from './store/modules/auth'
+
+//Views
 import App from './App.vue'
 import Home from './views/Home.vue'
 import Customers from './views/Customers.vue'
@@ -14,9 +23,6 @@ import Register from './views/Register.vue'
 import Bootstrap from 'bootstrap'
 import { createRouter, createWebHistory } from 'vue-router'
 
-//Axios
-window.axios = axios
-axios.defaults.baseURL = 'https://localhost:5001/'
 
 //Store
 const store = createStore({
@@ -24,14 +30,12 @@ const store = createStore({
     state()
     {
         return {
-            user: null,
         }
     },
     mutations: {
-        setUser(state, user)
-        {
-            state.user = user;
-        }
+    },
+    modules: {
+        auth
     }
 })
 

@@ -34,7 +34,6 @@ export default {
   computed:{
     user(){
       console.log("Got user")
-      return this.$store.state.user;
     }
   }
 }
