@@ -1,39 +1,79 @@
 ﻿using API.Data;
 using API.Models;
 using GroomingAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class UserController : Controller
     {
-        private GroomingDbContext dbContext;
-        public UserController(GroomingDbContext dbContext)
+        private GroomingDbContext _dbContext;
+        private IConfiguration _config;
+
+        public UserController(GroomingDbContext dbContext, IConfiguration config)
         {
-            this.dbContext = dbContext;
+            _dbContext = dbContext;
+            _config = config;
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("[action]")]
         public async Task<IActionResult> Login([FromBody]LoginModel loginModel) 
         {
-            var state = ModelState;
-            var users = await dbContext.Users.ToListAsync();
-            User result = null;
+            IActionResult response = Unauthorized();
+            var user = AuthenticateUser(loginModel);
+
+            if(user != null)
+            {
+                var tokenString = GenerateJSONWebToken(user);
+                response = Ok(new { token = tokenString });
+            }
+
+            return response;
+        }
+
+        private string GenerateJSONWebToken(User userInfo)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
+              _config["Jwt:Issuer"],
+              null,
+              expires: DateTime.Now.AddMinutes(120),
+              signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private User AuthenticateUser(LoginModel login)
+        {
+            User userModel = null;
+
+            List<User> users = _dbContext.Users.ToList();
+
             foreach (var user in users)
             {
-                if (user.Email == loginModel.Email && user.Password == loginModel.Password)
+                if(user.Email == login.Email && user.Password == login.Password)
                 {
-                    result = user;
+                    userModel = user;
                 }
             }
-            return Ok(result);
+
+            return userModel;
         }
 
         [HttpPost]
@@ -41,7 +81,7 @@ namespace API.Controllers
         public async Task<IActionResult> Register([FromBody]RegisterModel registerModel)
         {
             var state = ModelState;
-            var result = await dbContext.Users.AddAsync(new User()
+            var result = await _dbContext.Users.AddAsync(new User()
             {
                 Name = registerModel.Name,
                 Email = registerModel.Email,
@@ -50,7 +90,7 @@ namespace API.Controllers
                 LastLogin = DateTime.Now,
                 Customers = null
             });
-            await dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
 
             return Ok(result);
         }
