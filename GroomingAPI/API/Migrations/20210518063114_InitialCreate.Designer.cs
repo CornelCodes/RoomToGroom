@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GroomingAPI.Migrations
 {
     [DbContext(typeof(GroomingDbContext))]
-    [Migration("20210512094548_init")]
-    partial class init
+    [Migration("20210518063114_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,7 +20,7 @@ namespace GroomingAPI.Migrations
 
             modelBuilder.Entity("API.Models.Customer", b =>
                 {
-                    b.Property<long>("CustomerID")
+                    b.Property<long>("CustomerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -39,25 +39,57 @@ namespace GroomingAPI.Migrations
                     b.Property<int>("GroomFrequency")
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("GroomerID")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Surname")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("CustomerID");
+                    b.Property<long>("UserId")
+                        .HasColumnType("INTEGER");
 
-                    b.HasIndex("GroomerID");
+                    b.HasKey("CustomerId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("API.Models.Groomer", b =>
+            modelBuilder.Entity("API.Models.Pet", b =>
                 {
-                    b.Property<long>("GroomerID")
+                    b.Property<long>("PetId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Allergies")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Breed")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("CustomerId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TagSerialNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("VisualDescription")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("PetId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Pets");
+                });
+
+            modelBuilder.Entity("API.Models.User", b =>
+                {
+                    b.Property<long>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -78,41 +110,9 @@ namespace GroomingAPI.Migrations
                     b.Property<DateTime>("RegisterDate")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("GroomerID");
+                    b.HasKey("UserId");
 
-                    b.ToTable("Groomers");
-                });
-
-            modelBuilder.Entity("API.Models.Pet", b =>
-                {
-                    b.Property<long>("PetID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Allergies")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Breed")
-                        .HasColumnType("TEXT");
-
-                    b.Property<long>("CustomerID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("TagSerialNumber")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("VisualDescription")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("PetID");
-
-                    b.HasIndex("CustomerID");
-
-                    b.ToTable("Pets");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("GroomingAPI.Models.Appointment", b =>
@@ -134,9 +134,9 @@ namespace GroomingAPI.Migrations
 
             modelBuilder.Entity("API.Models.Customer", b =>
                 {
-                    b.HasOne("API.Models.Groomer", null)
+                    b.HasOne("API.Models.User", null)
                         .WithMany("Customers")
-                        .HasForeignKey("GroomerID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -145,7 +145,7 @@ namespace GroomingAPI.Migrations
                 {
                     b.HasOne("API.Models.Customer", null)
                         .WithMany("Pets")
-                        .HasForeignKey("CustomerID")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -155,7 +155,7 @@ namespace GroomingAPI.Migrations
                     b.Navigation("Pets");
                 });
 
-            modelBuilder.Entity("API.Models.Groomer", b =>
+            modelBuilder.Entity("API.Models.User", b =>
                 {
                     b.Navigation("Customers");
                 });

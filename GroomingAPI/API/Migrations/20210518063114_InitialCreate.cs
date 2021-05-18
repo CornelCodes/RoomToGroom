@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GroomingAPI.Migrations
 {
-    public partial class init : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,10 +22,10 @@ namespace GroomingAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Groomers",
+                name: "Users",
                 columns: table => new
                 {
-                    GroomerID = table.Column<long>(type: "INTEGER", nullable: false)
+                    UserId = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: true),
@@ -35,16 +35,16 @@ namespace GroomingAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Groomers", x => x.GroomerID);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new
                 {
-                    CustomerID = table.Column<long>(type: "INTEGER", nullable: false)
+                    CustomerId = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    GroomerID = table.Column<long>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<long>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Surname = table.Column<string>(type: "TEXT", nullable: true),
                     Email = table.Column<string>(type: "TEXT", nullable: true),
@@ -55,12 +55,12 @@ namespace GroomingAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customers", x => x.CustomerID);
+                    table.PrimaryKey("PK_Customers", x => x.CustomerId);
                     table.ForeignKey(
-                        name: "FK_Customers_Groomers_GroomerID",
-                        column: x => x.GroomerID,
-                        principalTable: "Groomers",
-                        principalColumn: "GroomerID",
+                        name: "FK_Customers_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -68,35 +68,35 @@ namespace GroomingAPI.Migrations
                 name: "Pets",
                 columns: table => new
                 {
-                    PetID = table.Column<long>(type: "INTEGER", nullable: false)
+                    PetId = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Breed = table.Column<string>(type: "TEXT", nullable: true),
-                    CustomerID = table.Column<long>(type: "INTEGER", nullable: false),
+                    CustomerId = table.Column<long>(type: "INTEGER", nullable: false),
                     TagSerialNumber = table.Column<string>(type: "TEXT", nullable: true),
                     VisualDescription = table.Column<string>(type: "TEXT", nullable: true),
                     Allergies = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pets", x => x.PetID);
+                    table.PrimaryKey("PK_Pets", x => x.PetId);
                     table.ForeignKey(
-                        name: "FK_Pets_Customers_CustomerID",
-                        column: x => x.CustomerID,
+                        name: "FK_Pets_Customers_CustomerId",
+                        column: x => x.CustomerId,
                         principalTable: "Customers",
-                        principalColumn: "CustomerID",
+                        principalColumn: "CustomerId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customers_GroomerID",
+                name: "IX_Customers_UserId",
                 table: "Customers",
-                column: "GroomerID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pets_CustomerID",
+                name: "IX_Pets_CustomerId",
                 table: "Pets",
-                column: "CustomerID");
+                column: "CustomerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -111,7 +111,7 @@ namespace GroomingAPI.Migrations
                 name: "Customers");
 
             migrationBuilder.DropTable(
-                name: "Groomers");
+                name: "Users");
         }
     }
 }
