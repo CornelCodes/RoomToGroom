@@ -9,11 +9,11 @@ export default {
     },
 
     mutations: {
-        LOG_IN(state, token, user)
+        LOG_IN(state, data)
         {
             console.log("Logging In...");
-            localStorage.setItem('token', JSON.stringify(token));
-            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
             console.log("User: " + localStorage.getItem('user') + "\nToken: " + localStorage.getItem('token') + "\nLogged in")
         },
 
@@ -30,8 +30,7 @@ export default {
         async logIn({ commit }, credentials)
         {
             let response = await axios.post('api/User/Login', credentials);
-            console.log(response.data)
-            commit('LOG_IN', response.data.token, response.data)
+            commit('LOG_IN', response.data)
         },
 
         async logOut({ commit })

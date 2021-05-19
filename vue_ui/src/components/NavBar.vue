@@ -37,15 +37,26 @@ export default {
   props:{
     isHome: Boolean,
   },
+  data(){
+    return{
+      user: { },
+    }
+  },
   methods:{
     ...mapActions({
       logOut: 'auth/logOut'
-    }),
+  }),
 
     async signOut(){
       await this.logOut();
       this.$router.push('/')
-    }
+    },
+
+  },
+  mounted(){
+    console.log("Mounted")
+    this.user = JSON.parse(localStorage.getItem('user'))
+    console.log(this.user)
   }
 }
 </script>
