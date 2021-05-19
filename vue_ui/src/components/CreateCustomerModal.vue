@@ -86,6 +86,9 @@ methods:{
 </script>
 
 <style scoped>
+*{
+  z-index: 1000;
+}
 .container{
     padding: 10px;
     border: 1px solid black;

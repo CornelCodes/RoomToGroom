@@ -21,6 +21,7 @@ namespace API.Controllers
     {
         private GroomingDbContext _dbContext;
         private IConfiguration _config;
+        private User _currentUser;
 
         public UserController(GroomingDbContext dbContext, IConfiguration config)
         {
@@ -34,12 +35,12 @@ namespace API.Controllers
         public async Task<IActionResult> Login([FromBody]LoginModel loginModel) 
         {
             IActionResult response = Unauthorized();
-            var user = AuthenticateUser(loginModel);
+            var userResult = AuthenticateUser(loginModel);
 
-            if(user != null)
+            if(userResult != null)
             {
-                var tokenString = GenerateJSONWebToken(user);
-                response = Ok(new { token = tokenString });
+                var tokenString = GenerateJSONWebToken(userResult);
+                response = Ok(new { token = tokenString, user = userResult });
             }
 
             return response;
@@ -81,18 +82,25 @@ namespace API.Controllers
         public async Task<IActionResult> Register([FromBody]RegisterModel registerModel)
         {
             var state = ModelState;
-            var result = await _dbContext.Users.AddAsync(new User()
+            try
             {
-                Name = registerModel.Name,
-                Email = registerModel.Email,
-                Password = registerModel.Password,
-                RegisterDate = DateTime.Now,
-                LastLogin = DateTime.Now,
-                Customers = null
-            });
-            await _dbContext.SaveChangesAsync();
+                await _dbContext.Users.AddAsync(new User()
+                {
+                    Name = registerModel.Name,
+                    Email = registerModel.Email,
+                    Password = registerModel.Password,
+                    RegisterDate = DateTime.Now,
+                    LastLogin = DateTime.Now,
+                    Customers = null
+                });
+                await _dbContext.SaveChangesAsync();
 
-            return Ok(result);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return Unauthorized();
+            }
         }
     }
 }

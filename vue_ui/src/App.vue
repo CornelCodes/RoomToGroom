@@ -1,26 +1,13 @@
 <template>
-<div class="top">
-<NavBar :signedIn="signedIn" @signed-in="setUser"/>
-</div>
 <div class="currentView">
   <router-view></router-view>
-</div>
-<div class="footer">
-  <!-- <Footer/> -->
 </div>
 </template>
 
 <script>
-//Import components
-import NavBar from './views/Navigation.vue'
-import Footer from './components/Footer'
 
 export default {
   name: 'App',
-  components: {
-    NavBar,
-    Footer
-  },
   data(){
     return{
       user: null,
@@ -33,9 +20,6 @@ export default {
       user = value;
     }
   },
-  mounted(){
-    
-  }
 }
 </script>
 
