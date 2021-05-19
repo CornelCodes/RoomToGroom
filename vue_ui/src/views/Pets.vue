@@ -1,4 +1,7 @@
 <template>
+  <div class="nav-bar">
+    <NavBar/>
+  </div>
     <div class="container-fluid">
       <div class="table-responsive">
         <table class="table">
@@ -25,6 +28,7 @@
 </template>
 
 <script>
+import NavBar from '../components/NavBar'
 export default {
 data(){
   return{
@@ -44,12 +48,22 @@ methods:{
 },
 mounted(){
   this.getPets()
+},
+
+components:{
+  NavBar
 }
 }
 </script>
 
-<style>
+<style scoped>
 table, th, td{
   border: 1px solid black;
+}
+
+.navbar{
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 </style>

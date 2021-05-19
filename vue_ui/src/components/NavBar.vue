@@ -1,7 +1,9 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/Home">Room To Groom</a>
+    <a class="navbar-brand" href="/Home" id="logo">
+      <img src="../assets/image1.png" alt="logo">
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -17,10 +19,10 @@
                 <a href="Customers" class="nav-link">Customers</a>
             </li>
         </ul>
-        <div class="container" v-if="user != null">
-          <h5>Hello {{user.name}}</h5>
+        <div class="d-flex" v-if="isHome">
+          <button class="btn btn-outline-primary" type="submit" @click="signOut">Sign Out</button>
         </div>
-      <form class="d-flex">
+      <form class="d-flex" v-else>
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
@@ -30,10 +32,19 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
-  computed:{
-    user(){
-      console.log("Got user")
+  props:{
+    isHome: Boolean,
+  },
+  methods:{
+    ...mapActions({
+      logOut: 'auth/logOut'
+    }),
+
+    async signOut(){
+      await this.logOut();
+      this.$router.push('/')
     }
   }
 }
@@ -44,5 +55,15 @@ export default {
   position: fixed;
   left: 50%;
   top: 50%;
+}
+
+#logo{
+  display: flex;
+  position: relative;
+  left: 48%;
+  width: 50px;
+  height: 50px;
+  border: 1px solid black;
+  border-radius: 50%;
 }
 </style>

@@ -1,27 +1,11 @@
 <template>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-9">
             <div class="calendar">
                 <vue-cal 
                 :time="false"
                 :disable-views="['years', 'year']">
                 </vue-cal>
             </div>
-        </div>
-        <div class="col-3">
-            <div class="appointment-list">
-                <ul class="list-group">
-                    <li class="list-group-item">Test Appointment</li>
-                    <li class="list-group-item">Test Appointment</li>
-                    <li class="list-group-item">Test Appointment</li>
-                    <li class="list-group-item">Test Appointment</li>
-                    <li class="list-group-item">Test Appointment</li>
-                    <button type="button" class="btn btn-primary">Add</button>
-                </ul>
-            </div>
-        </div>
-    </div>
 </div>
 </template>
 
@@ -65,16 +49,7 @@ mounted(){
 }
 
 .calendar{
-    height: 100%;
+    height: 500px;
     width: 100%;
 }
-
-.appointment-list li{
-    font-size: small;
-    text-align: center;
-    width: 100%;
-    margin: 1px;
-    padding: 1px;
-}
-
 </style>
