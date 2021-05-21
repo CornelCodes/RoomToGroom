@@ -9,9 +9,12 @@ import Register from '../views/Register.vue'
 
 const routes = [
     {
-        path: '/',
+        path: '/Login',
         name: 'Login',
-        component: Login
+        component: Login,
+        meta: {
+            requiresAuth: false,
+        }
     },
     {
         path: '/Register',
@@ -19,25 +22,55 @@ const routes = [
         component: Register
     },
     {
-        path: '/Home',
+        path: '/',
         name: 'Home',
-        component: Home
+        component: Home,
+        meta: {
+            requiresAuth: true,
+        }
     },
     {
         path: '/Pets',
         name: 'Pets',
-        component: Pets
+        component: Pets,
+        meta: {
+            requiresAuth: true,
+        }
     },
     {
         path: '/Customers',
         name: 'Customers',
-        component: Customers
+        component: Customers,
+        meta: {
+            requiresAuth: true,
+        }
     },
 ]
 
 const router = createRouter({
     history: createWebHistory(),
     routes
+})
+
+//Block routes to views that require auth if user has no token
+router.beforeEach((to, from, next) =>
+{
+    if (to.matched.some((record) => record.meta.requiresAuth))
+    {
+        console.log(localStorage.getItem('token'))
+        if (localStorage.getItem('token') != null)
+        {
+            next()
+        }
+        else
+        {
+            next('/Login')
+        }
+    }
+    else
+    {
+        next()
+    }
 })
 
 export default router;

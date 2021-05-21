@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/Home" id="logo">
+    <a class="navbar-brand" href="/" id="logo">
       <img src="../assets/image1.png" alt="logo">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,7 +10,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-                <a href="/Home" class="nav-link">Home</a>
+                <a href="/" class="nav-link">Home</a>
             </li>
             <li class="nav-item">
                 <a href="Pets" class="nav-link">Pets</a>
@@ -49,7 +49,7 @@ export default {
 
     async signOut(){
       await this.logOut();
-      this.$router.push('/')
+      this.$router.push('/Login')
     },
 
   },

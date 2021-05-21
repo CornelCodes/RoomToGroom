@@ -14,10 +14,14 @@
       <input type="password" required="true" v-model="password">
       <label>Password</label>
     </div>
+    <div class="user-box">
+      <input type="password" required="true" v-model="confirmPassword">
+      <label>Confirm Password</label>
+    </div>
     <a @click="register">
       Submit
     </a>
-    <a href="/">
+    <a href="/Login">
       Login
     </a>
   </form>
@@ -34,6 +38,7 @@ data(){
     name: '',
     email: '',
     password: '',
+    confirmPassword: ''
   }
 },
 methods:{
@@ -46,9 +51,36 @@ methods:{
       'email': this.email,
       'password': this.password,
     }
-
-    this.attemptRegister(user)
-    this.$router.push('/')
+    
+    if(user.name != '' && user.name.length > 2){
+      if(user.email != ''){
+        if(user.password != ''){
+          if(user.password === this.confirmPassword){
+            this.attemptRegister(user)
+            .then(() => {
+              console.log(`${user.name} registered successfully`)
+              this.$router.push('/Login')
+            })
+            .catch(err => {
+              alert('Register failed')
+              console.log(err)
+            })
+          }
+          else{
+            alert('Passwords do not match')
+          }
+        }
+        else{
+          alert('Please enter password')
+        }
+      }
+      else{
+        alert('Please enter valid email address')
+      }
+    }
+    else{
+      alert('Name must be longer than 2 characters\n')
+    }
   }
 }
 }

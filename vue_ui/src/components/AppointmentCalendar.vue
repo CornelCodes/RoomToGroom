@@ -45,7 +45,6 @@ mounted(){
 
 <style scoped>
 *{
-    z-index: 0;
 }
 
 .calendar{

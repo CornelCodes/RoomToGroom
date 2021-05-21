@@ -38,9 +38,23 @@ export default {
     }),
 
     async signIn(){
-      await this.logIn(this.credentials);
-      console.log('Submitting')
-      this.$router.push('/Home')
+      if(this.credentials.email != '' && this.credentials.password != ''){
+        await this.logIn(this.credentials)
+        .then(() => {
+          console.log(`Login successful for ${this.credentials.email}`)
+        })
+        .catch(err => {
+          alert('User does not exist')
+          console.log(err)
+          this.credentials.email = ''
+          this.credentials.password = ''
+        })
+        console.log('Submitting')
+        this.$router.push('/')
+      }
+      else{
+        alert('Please enter email and password')
+      }
     },
 
   }

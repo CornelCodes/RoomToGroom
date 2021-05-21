@@ -37,7 +37,11 @@ data(){
 },
 methods:{
   getPets(){
-    axios.get('api/pet')
+    axios.get('api/pet/GetAll',{
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
+      }
+    })
     .then(res => {
       this.pets = res.data;
     })

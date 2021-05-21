@@ -1,5 +1,7 @@
 ﻿using API.Data;
 using API.Models;
+using GroomingAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,31 +12,39 @@ using System.Threading.Tasks;
 
 namespace GroomingAPI.Controllers
 {
+    [Authorize]
     [EnableCors("AllowOrigin")]
     [Route("api/[controller]")]
     public class CustomerController : Controller
     {
         private GroomingDbContext dbContext;
-        public CustomerController(GroomingDbContext dbContext)
+        private IUserService _userService;
+        public CustomerController(GroomingDbContext dbContext, IUserService userService)
         {
             this.dbContext = dbContext;
+            _userService = userService;
         }
 
+        //Get all customers
         [HttpGet]
-        public async Task<IActionResult> Get()
+        [Route("[action]")]
+        public async Task<IActionResult> GetAll()
         {
-            var result = await dbContext.Customers.ToListAsync<Customer>();
+            //Get all the customers that match the current user Id
+            var result = await dbContext.Customers.Where(c => c.UserId == _userService.GetUserId()).ToListAsync();
             return Ok(result);
         }
 
+        //Get by CustomerId
         [HttpGet]
-        [Route("/api/[controller]/[action]/id")]
+        [Route("[action]/id")]
         public async Task<IActionResult> GetById(long id)
         {
             var result = await dbContext.Customers.SingleAsync(c => c.CustomerId == id);
             return Ok(result);
         }
 
+        //Create customer
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]Customer customer)
         {
@@ -44,7 +54,7 @@ namespace GroomingAPI.Controllers
 
             var output = new Customer()
             {
-                UserId = 1,
+                UserId = _userService.GetUserId(),
                 Name = customer.Name,
                 Surname = customer.Surname,
                 Email = customer.Email,

@@ -34,7 +34,6 @@ this.isActive = false;
 
 <style scoped>
 *{
-  z-index: 1;
   margin: 0;
   padding: 0;
 }

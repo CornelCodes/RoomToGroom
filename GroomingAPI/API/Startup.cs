@@ -1,4 +1,5 @@
 using API.Data;
+using GroomingAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -58,6 +59,8 @@ namespace API
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                     };
                 });
+
+            services.AddSingleton<IUserService, UserService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
