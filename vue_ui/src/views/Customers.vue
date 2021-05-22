@@ -7,7 +7,6 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th scope="col">Customer Id</th>
         <th scope="col">Name</th>
         <th scope="col">Surname</th>
         <th scope="col">Contact No</th>
@@ -17,13 +16,12 @@
     </thead>
 
     <tbody>
-      <tr v-for="customer in customers" :key="customer.customerId" @click="selectCustomer(customer)">
-          <th scope="row">{{customer.customerId}}</th>
+      <tr v-for="customer in customers" :key="customer.customerId">
           <td>{{customer.name}}</td>
           <td>{{customer.surname}}</td>
           <td>{{customer.contactNumber}}</td>
           <td>{{customer.email}}</td>
-          <td><button type="button" class="btn btn-primary">Edit</button></td>
+          <td><button type="button" class="btn btn-primary" @click="editCustomer(customer)">Edit</button></td>
       </tr>
       <tr v-if="showCreateCustomer" class="form-group">
         <td></td>
@@ -42,12 +40,17 @@
     </div>
   </div>
 
+  <div class="edit-modal" v-if="showEditCustomer">
+    <EditModal :customer='customerToEdit'/>
+  </div>
+
 </div>
 
 </template>
 
 <script>
 import NavBar from '../components/NavBar'
+import EditModal from '../components/CustomerDetails'
 
 export default {
   data(){
@@ -55,17 +58,19 @@ export default {
       customers: [],
       selectedCustomer: null,
       showCreateCustomer: false,
+      showEditCustomer: false,
       newCustomer: {
         name: '',
         surname: '',
         contactNumber: '',
         email: '',
-
-      }
+      },
+      customerToEdit: null,
     }
   },
   components:{
     NavBar,
+    EditModal
   },
   methods:{
     createCustomer(){
@@ -100,22 +105,31 @@ export default {
       })
     },
 
+    editCustomer(customer){
+      if(this.showEditCustomer){
+        if(this.customerToEdit === customer){
+          this.toggleShowEditCustomer()
+          this.customerToEdit = null;
+        }
+        else{
+          this.customerToEdit = customer;
+        }
+      }
+      else{
+        this.customerToEdit = customer
+        this.toggleShowEditCustomer()
+      }
+    },
+
     //Toggles the create customer inputs
     toggleShowCreateCustomer(){
       this.showCreateCustomer = !this.showCreateCustomer;
-      console.log(this.showCreateCustomer)
     },
 
-    selectCustomer(customer){
-      this.selectedCustomer = customer
-      if(customer != null){
-        this.customerSelected = true;
-      }
-      else{
-        this.customerSelected = false;
-      }
-      console.log(this.selectedCustomer.name)
+    toggleShowEditCustomer(){
+      this.showEditCustomer = !this.showEditCustomer;
     }
+
   },
   mounted(){
     this.getCustomers();
@@ -161,5 +175,12 @@ td button{
   position: fixed;
   top: 0;
   width: 100%;
+}
+
+.edit-modal{
+  position: absolute;
+  left: 0;
+  top: 60px;
+  background: white;
 }
 </style>

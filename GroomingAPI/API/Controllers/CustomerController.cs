@@ -52,21 +52,28 @@ namespace GroomingAPI.Controllers
 
             var state = ModelState;
 
-            var output = new Customer()
+            if(_userService.GetUserId() != -1)
             {
-                UserId = _userService.GetUserId(),
-                Name = customer.Name,
-                Surname = customer.Surname,
-                Email = customer.Email,
-                ContactNumber = customer.ContactNumber,
-                CustomerSince = DateTime.Now,
-                GroomDay = customer.GroomDay,
-                GroomFrequency = customer.GroomFrequency,
-                Pets = null
-            };
-            await dbContext.Customers.AddAsync(output);
-            var result = await dbContext.SaveChangesAsync();
-            return Ok(result);
+                var output = new Customer()
+                {
+                    UserId = _userService.GetUserId(),
+                    Name = customer.Name,
+                    Surname = customer.Surname,
+                    Email = customer.Email,
+                    ContactNumber = customer.ContactNumber,
+                    CustomerSince = DateTime.Now,
+                    GroomDay = customer.GroomDay,
+                    GroomFrequency = customer.GroomFrequency,
+                    Pets = null
+                };
+                await dbContext.Customers.AddAsync(output);
+                var result = await dbContext.SaveChangesAsync();
+                return Ok(result);
+            }
+            else
+            {
+                return Unauthorized();
+            }
         }
     }
 }

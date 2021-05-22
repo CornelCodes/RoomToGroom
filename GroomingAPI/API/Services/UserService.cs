@@ -29,5 +29,10 @@ namespace GroomingAPI.Services
             return -1;
         }
 
+        public void LogOut()
+        {
+            _currentUser = null;
+        }
+
     }
 }

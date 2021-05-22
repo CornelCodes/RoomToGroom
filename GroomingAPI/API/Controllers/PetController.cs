@@ -1,6 +1,8 @@
 ﻿using API.Data;
 using API.Models;
+using GroomingAPI.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,14 +13,17 @@ using System.Threading.Tasks;
 namespace GroomingAPI.Controllers
 {
     [Authorize]
+    [EnableCors("AllowOrigin")]
     [Route("api/[controller]")]
     public class PetController : Controller
     {
         private GroomingDbContext dbContext;
+        private IUserService _userService;
 
-        public PetController(GroomingDbContext dbContext)
+        public PetController(GroomingDbContext dbContext, IUserService userService)
         {
             this.dbContext = dbContext;
+            _userService = userService;
         }
 
         //Get the pet by their PetId
@@ -35,8 +40,17 @@ namespace GroomingAPI.Controllers
         [Route("[action]")]
         public async Task<IActionResult> GetAll()
         {
-            var result = await dbContext.Pets.ToListAsync();
-            return Ok(result);
+            var customers = await dbContext.Customers.Where(c => c.UserId == _userService.GetUserId()).ToListAsync();
+            var pets = new List<Pet>();
+            foreach(var customer in customers)
+            {
+                var customerPets = await dbContext.Pets.Where(p => p.CustomerId == customer.CustomerId).ToListAsync();
+                foreach(var pet in customerPets)
+                {
+                    pets.Add(pet);
+                }
+            }
+            return Ok(pets);
         }
 
         //Get by CustomerId
@@ -44,7 +58,9 @@ namespace GroomingAPI.Controllers
         [Route("[action]")]
         public async Task<IActionResult> GetByCustomerId(long customerId)
         {
-            var result = await dbContext.Pets.AllAsync(p => p.CustomerId == customerId);
+            var state = ModelState;
+
+            var result = await dbContext.Pets.Where(p => p.CustomerId == customerId).ToListAsync();
             return Ok(result);
         }
 
