@@ -2,58 +2,160 @@
 <div class="nav-bar">
   <NavBar/>
 </div>
-<div v-if="showModal">
-  <CreateCustomerModal/>
-</div>
-<div v-else>
+
+<div class="container-fluid">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Surname</th>
+        <th scope="col">Contact No</th>
+        <th scope="col">Email</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr v-for="customer in customers" :key="customer.customerId">
+          <td>{{customer.name}}</td>
+          <td>{{customer.surname}}</td>
+          <td>{{customer.contactNumber}}</td>
+          <td>{{customer.email}}</td>
+          <td><button type="button" class="btn btn-primary" @click="editCustomer(customer)">Edit</button></td>
+      </tr>
+      <tr v-if="showCreateCustomer" class="form-group">
+        <td></td>
+        <td><input type="text" class="form-control" v-model="newCustomer.name" placeholder="Name"></td>
+        <td><input type="text" class="form-control" v-model="newCustomer.surname" placeholder="Surname"></td>
+        <td><input type="text" class="form-control" v-model="newCustomer.contactNumber" placeholder="Contact No"></td>
+        <td><input type="text" class="form-control" v-model="newCustomer.email" placeholder="Email"></td>
+        <td><button type="button" class="btn btn-outline-primary" @click="createCustomer">Add</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="sticky">
+    <div class="create">
+      <button type="button" class="btn btn-outline-primary" @click="toggleShowCreateCustomer">Create Customer</button>
+    </div>
+  </div>
+
+  <div class="edit-modal" v-if="showEditCustomer">
+    <EditModal :customer='customerToEdit'/>
+  </div>
 
 </div>
-<div class="container-fluid" id="actions" v-if="showModal === false">
-  <button type="button" class="btn btn-outline-primary btn-lg btn-block" @click="toggleShowModal">Create New</button>
-</div>
+
 </template>
 
 <script>
 import NavBar from '../components/NavBar'
-import CreateCustomerModal from '../components/CreateCustomerModal'
+import EditModal from '../components/CustomerDetails'
+
 export default {
   data(){
     return{
       customers: [],
       selectedCustomer: null,
-      showModal: false
+      showCreateCustomer: false,
+      showEditCustomer: false,
+      newCustomer: {
+        name: '',
+        surname: '',
+        contactNumber: '',
+        email: '',
+      },
+      customerToEdit: null,
     }
   },
   components:{
-    CreateCustomerModal
+    NavBar,
+    EditModal
   },
   methods:{
+    createCustomer(){
+      axios.post('api/customer', this.newCustomer, {
+        headers: {
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
+      }
+      })
+      .then(res => {
+        console.log("Success creating customer")
+        this.showCreateCustomer = false;
+        this.getCustomers();
+        //Refresh list data
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
+
     getCustomers(){
-      this.customers = axios.get('api/customer')
+      const user = JSON.parse(localStorage.getItem('user'))
+      this.customers = axios.get('api/customer/GetAll',{
+        'userId': user.userId,
+        headers: {
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
+      }
+      })
       .then(res => {
         if(res != null){
           this.customers = res.data;
         }
       })
     },
-    toggleShowModal(){
-      this.showModal = !this.showModal;
+
+    editCustomer(customer){
+      if(this.showEditCustomer){
+        if(this.customerToEdit === customer){
+          this.toggleShowEditCustomer()
+          this.customerToEdit = null;
+        }
+        else{
+          this.customerToEdit = customer;
+        }
+      }
+      else{
+        this.customerToEdit = customer
+        this.toggleShowEditCustomer()
+      }
     },
-    getSelectedCustomer(customer){
-      this.selectedCustomer = customer
+
+    //Toggles the create customer inputs
+    toggleShowCreateCustomer(){
+      this.showCreateCustomer = !this.showCreateCustomer;
+    },
+
+    toggleShowEditCustomer(){
+      this.showEditCustomer = !this.showEditCustomer;
     }
+
   },
   mounted(){
     this.getCustomers();
   },
-  components:{
-    NavBar
-  }
 }
 </script>
 
 <style scoped>
 *{
+  margin: 0;
+  padding: 0;
+}
+
+td button{
+  padding: 1px 5px;
+}
+
+.selected{
+  background: blue;
+}
+
+.sticky button{
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  padding: 10px;
 }
 
 .container{
@@ -62,41 +164,23 @@ export default {
 }
 
 .customer-list{
-  flex: 1;
-  text-align: center;
-  border: 1px solid black;
-}
-
-.list{
-  flex: 1;
-}
-
-.selected-customer{
-  width: 30%;
-  text-align: center;
-  border: 1px solid black;
-}
-
-.overview{
-  width: 30%;
-}
-
-#customers li{
-  text-align: left;
-}
-
-#customers button{
-  float: right;
-}
-
-.overview ul{
-  list-style-type: none;
-  text-align: left;
+  position: fixed;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: grey;
 }
 
 .navbar{
   position: fixed;
   top: 0;
   width: 100%;
+}
+
+.edit-modal{
+  position: absolute;
+  left: 0;
+  top: 60px;
+  background: white;
 }
 </style>

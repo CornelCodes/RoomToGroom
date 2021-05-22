@@ -1,6 +1,7 @@
 ﻿using API.Data;
 using API.Models;
 using GroomingAPI.Models;
+using GroomingAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,18 +16,20 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : Controller
     {
         private GroomingDbContext _dbContext;
         private IConfiguration _config;
-        private User _currentUser;
+        private IUserService _userService;
 
-        public UserController(GroomingDbContext dbContext, IConfiguration config)
+        public UserController(GroomingDbContext dbContext, IConfiguration config, IUserService userService)
         {
             _dbContext = dbContext;
             _config = config;
+            _userService = userService;
         }
 
         [HttpPost]
@@ -39,6 +42,7 @@ namespace API.Controllers
 
             if(userResult != null)
             {
+                _userService.SetUser(userResult);
                 var tokenString = GenerateJSONWebToken(userResult);
                 response = Ok(new { token = tokenString, user = userResult });
             }

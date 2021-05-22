@@ -2,19 +2,27 @@
 import { createStore } from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import auth from './modules/auth'
+import pets from './modules/pets'
+import customers from './modules/customers'
 
 //Store
 const store = createStore({
     plugins: [createPersistedState()],
-    state()
+    state:
     {
-        return {
-        }
+
     },
+
     mutations: {
     },
+
+    actions: {
+    },
+
     modules: {
-        auth
+        auth,
+        pets,
+        customers,
     }
 })
 

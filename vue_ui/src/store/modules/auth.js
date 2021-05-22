@@ -1,5 +1,3 @@
-import { registerRuntimeCompiler } from "@vue/runtime-core";
-import axios from "axios";
 
 export default {
     namespaced: true,

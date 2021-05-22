@@ -7,12 +7,31 @@ using System.Threading.Tasks;
 
 namespace GroomingAPI.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
-        private readonly GroomingDbContext _dbContext;
-        public UserService(GroomingDbContext dbContext)
+        private User _currentUser;
+
+        public void SetUser(User currentUser)
         {
-            _dbContext = dbContext;
+            _currentUser = currentUser;
+        }
+
+        /// <summary>
+        /// Gets the current users Id
+        /// </summary>
+        /// <returns>-1 if user is null and userId if not</returns>
+        public long GetUserId()
+        {
+            if (_currentUser != null)
+            {
+                return _currentUser.UserId;
+            }
+            return -1;
+        }
+
+        public void LogOut()
+        {
+            _currentUser = null;
         }
 
     }
