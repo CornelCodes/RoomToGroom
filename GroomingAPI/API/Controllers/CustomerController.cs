@@ -44,12 +44,47 @@ namespace GroomingAPI.Controllers
             return Ok(result);
         }
 
+        //Update customer
+        [HttpPut]
+        [Route("[action]")]
+        public async Task<IActionResult> Update(Customer customer)
+        {
+            var customerEntity = await dbContext.Customers.FirstOrDefaultAsync(c => c.CustomerId == customer.CustomerId);
+
+            if(customerEntity != null)
+            {
+                customerEntity.Name = customer.Name;
+                customerEntity.Surname = customer.Surname;
+                customerEntity.Email = customer.Email;
+                customerEntity.ContactNumber = customer.ContactNumber;
+                customerEntity.GroomDay = customer.GroomDay;
+                customerEntity.GroomFrequency = customer.GroomFrequency;
+                await dbContext.SaveChangesAsync();
+            }
+
+            return Ok(customerEntity);
+        }
+
+        //Delete customer
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(long customerId)
+        {
+            var state = ModelState;
+
+            var result = await dbContext.Customers.FirstOrDefaultAsync(c => c.CustomerId == customerId);
+            if(result != null)
+            {
+                dbContext.Customers.Remove(result);
+                await dbContext.SaveChangesAsync();
+            }
+
+            return Ok(result);
+        }
+
         //Create customer
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]Customer customer)
         {
-            //Creation working - Fix enums
-
             var state = ModelState;
 
             if(_userService.GetUserId() != -1)

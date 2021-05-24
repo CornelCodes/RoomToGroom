@@ -50,7 +50,7 @@ export default {
       getPets: "pets/getAllPets",
     }),
   },
-  beforeUpdate() {
+  mounted() {
     this.pets = [];
     this.getPets();
   },

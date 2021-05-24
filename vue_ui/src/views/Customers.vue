@@ -11,7 +11,7 @@
           <th scope="col">Surname</th>
           <th scope="col">Contact No</th>
           <th scope="col">Email</th>
-          <th scope="col"></th>
+          <th scope="col">Actions</th>
         </tr>
       </thead>
 
@@ -26,13 +26,21 @@
               type="button"
               class="btn btn-primary"
               @click="editCustomer(customer)"
+              id="edit"
             >
               Edit
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              @click="deleteCustomer(customer)"
+              id="edit"
+            >
+              Delete
             </button>
           </td>
         </tr>
         <tr v-if="showCreateCustomer" class="form-group">
-          <td></td>
           <td>
             <input
               type="text"
@@ -41,6 +49,7 @@
               placeholder="Name"
             />
           </td>
+
           <td>
             <input
               type="text"
@@ -49,6 +58,7 @@
               placeholder="Surname"
             />
           </td>
+
           <td>
             <input
               type="text"
@@ -57,6 +67,7 @@
               placeholder="Contact No"
             />
           </td>
+
           <td>
             <input
               type="text"
@@ -65,6 +76,7 @@
               placeholder="Email"
             />
           </td>
+
           <td>
             <button
               type="button"
@@ -91,7 +103,7 @@
     </div>
 
     <div class="edit-modal" v-if="showEditCustomer">
-      <EditModal :customer="customerToEdit" />
+      <EditModal @close="toggleShowEditCustomer" :customer="customerToEdit" />
     </div>
   </div>
 </template>
@@ -129,6 +141,8 @@ export default {
   methods: {
     ...mapActions({
       getCustomers: "customers/getAllCustomers",
+      delete: "customers/delete",
+      update: "customers/update",
     }),
 
     editCustomer(customer) {
@@ -144,6 +158,12 @@ export default {
         this.toggleShowEditCustomer();
       }
     },
+
+    deleteCustomer(customer) {
+      this.delete(customer.customerId);
+    },
+
+    updateCustomer() {},
 
     //Toggles the create customer inputs
     toggleShowCreateCustomer() {
@@ -170,6 +190,7 @@ export default {
 
 td button {
   padding: 1px 5px;
+  margin: 1px;
 }
 
 .selected {
