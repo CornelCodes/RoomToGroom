@@ -41,8 +41,15 @@ export default {
             console.log("Attempting Register...")
 
             axios.post('api/User/Register', credentials)
+                .then(res =>
+                {
+                    console.log("Register success")
+                })
+                .catch(err =>
+                {
+                    console.log(err)
+                })
 
-            console.log("Register success")
         }
     },
 }

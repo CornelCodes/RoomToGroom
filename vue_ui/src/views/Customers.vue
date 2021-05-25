@@ -11,7 +11,7 @@
           <th scope="col">Surname</th>
           <th scope="col">Contact No</th>
           <th scope="col">Email</th>
-          <th scope="col"></th>
+          <th scope="col">Actions</th>
         </tr>
       </thead>
 
@@ -26,13 +26,21 @@
               type="button"
               class="btn btn-primary"
               @click="editCustomer(customer)"
+              id="edit"
             >
               Edit
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              @click="deleteCustomer(customer)"
+              id="edit"
+            >
+              Delete
             </button>
           </td>
         </tr>
         <tr v-if="showCreateCustomer" class="form-group">
-          <td></td>
           <td>
             <input
               type="text"
@@ -41,6 +49,7 @@
               placeholder="Name"
             />
           </td>
+
           <td>
             <input
               type="text"
@@ -49,6 +58,7 @@
               placeholder="Surname"
             />
           </td>
+
           <td>
             <input
               type="text"
@@ -57,6 +67,7 @@
               placeholder="Contact No"
             />
           </td>
+
           <td>
             <input
               type="text"
@@ -65,6 +76,7 @@
               placeholder="Email"
             />
           </td>
+
           <td>
             <button
               type="button"
@@ -91,14 +103,17 @@
     </div>
 
     <div class="edit-modal" v-if="showEditCustomer">
-      <EditModal :customer="customerToEdit" />
+      <CustomerDetailsModal
+        @close="closeEditCustomer"
+        :customer="customerToEdit"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import NavBar from "../components/NavBar";
-import EditModal from "../components/EditModal";
+import CustomerDetailsModal from "../components/CustomerDetailsModal";
 import { mapActions } from "vuex";
 
 export default {
@@ -124,12 +139,20 @@ export default {
   },
   components: {
     NavBar,
-    EditModal,
+    CustomerDetailsModal,
   },
   methods: {
     ...mapActions({
-      getCustomers: "customers/getAllCustomers",
+      getAll: "customers/getAllCustomers",
+      delete: "customers/delete",
+      update: "customers/update",
+      create: "customers/create",
     }),
+
+    closeEditCustomer() {
+      this.showEditCustomer = false;
+      this.customerToEdit = null;
+    },
 
     editCustomer(customer) {
       if (this.showEditCustomer) {
@@ -145,6 +168,18 @@ export default {
       }
     },
 
+    deleteCustomer(customer) {
+      this.delete(customer.customerId);
+    },
+
+    updateCustomer() {
+      this.update();
+    },
+
+    createCustomer() {
+      this.create(this.newCustomer);
+    },
+
     //Toggles the create customer inputs
     toggleShowCreateCustomer() {
       this.showCreateCustomer = !this.showCreateCustomer;
@@ -157,7 +192,7 @@ export default {
 
   mounted() {
     this.customers = [];
-    this.getCustomers();
+    this.getAll();
   },
 };
 </script>
@@ -170,10 +205,7 @@ export default {
 
 td button {
   padding: 1px 5px;
-}
-
-.selected {
-  background: blue;
+  margin: 1px;
 }
 
 .sticky button {
@@ -181,19 +213,6 @@ td button {
   right: 20px;
   bottom: 20px;
   padding: 10px;
-}
-
-.container {
-  display: flex;
-  padding-top: 10px;
-}
-
-.customer-list {
-  position: fixed;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: grey;
 }
 
 .navbar {

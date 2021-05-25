@@ -11,10 +11,13 @@ export default {
         {
             state.userCustomers = customers
             console.log(customers)
-        }
+        },
+
     },
 
     actions: {
+
+        //Get all customers
         async getAllCustomers({ commit })
         {
 
@@ -34,9 +37,49 @@ export default {
                 })
         },
 
-        createCustomer()
+        //Update customer
+        async update({ dispatch }, customer)
         {
-            axios.post("api/customer", this.newCustomer, {
+            await axios.put('api/Customer/Update', customer)
+                .then(res =>
+                {
+                    dispatch('getAllCustomers')
+                })
+                .catch(err =>
+                {
+                    console.log(err)
+                })
+        },
+
+        //Delete customer 
+        async delete({ dispatch }, customerId)
+        {
+            console.log(customerId)
+            await axios({
+                method: 'DELETE',
+                url: 'api/Customer/Delete',
+                params: {
+                    customerId,
+                },
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                }
+            })
+                .then(res =>
+                {
+                    dispatch('getAllCustomers')
+                })
+                .catch(err =>
+                {
+                    console.log(err)
+                })
+        },
+
+        //Create new customer
+        async create()
+        {
+            await axios.post("api/customer/post", {
+                'Customer': this.newCustomer,
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -51,6 +94,7 @@ export default {
                 .catch((err) =>
                 {
                     console.log(err);
+                    console.log(`Token: :${localStorage.getItem('token')}`);
                 });
 
         }

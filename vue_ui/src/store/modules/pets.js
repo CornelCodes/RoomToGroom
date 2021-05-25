@@ -32,5 +32,25 @@ export default {
                     console.log(err)
                 })
         },
+
+        async create({ dispatch }, newPet)
+        {
+            console.log("Attempting to create..")
+            await axios.post('api/Pet', newPet, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+                .then(res =>
+                {
+                    dispatch('getAllPets')
+                    console.log("Created pet")
+                })
+                .catch(err =>
+                {
+                    console.log(err)
+                })
+        }
     }
 }
