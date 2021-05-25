@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 namespace GroomingAPI.Controllers
 {
     [Authorize]
-    [EnableCors("AllowOrigin")]
     [Route("api/[controller]")]
     public class PetController : Controller
     {
@@ -61,16 +60,64 @@ namespace GroomingAPI.Controllers
             var state = ModelState;
 
             var result = await dbContext.Pets.Where(p => p.CustomerId == customerId).ToListAsync();
+
             return Ok(result);
         }
 
-        //Add a pet
+        //Create
         [HttpPost]
-        [Route("[action]")]
-        public async Task<IActionResult> Post(Pet pet)
+        public async Task<IActionResult> Post([FromBody]Pet pet)
         {
-            var result = dbContext.Pets.Add(pet);
+            var state = ModelState;
+
+            Pet newPet = new Pet()
+            {
+                Name = pet.Name,
+                Breed = pet.Breed,
+                VisualDescription = pet.VisualDescription,
+                Allergies = pet.Allergies,
+                TagSerialNumber = pet.TagSerialNumber,
+                CustomerId = pet.CustomerId
+            };
+
+            var result = dbContext.Pets.Add(newPet);
+            await dbContext.SaveChangesAsync();
+            return Ok();
+        }
+
+        //Delete
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(long id)
+        {
+            var result = await dbContext.Pets.FirstOrDefaultAsync(p => p.PetId == id);
+
+            if(result != null)
+            {
+                dbContext.Pets.Remove(result);
+                await dbContext.SaveChangesAsync();
+            }
+
             return Ok(result);
+        }
+
+        //Update
+        [HttpPut]
+        [Route("[action]")]
+        public async Task<IActionResult> Update([FromBody]Pet pet)
+        {
+            var petEntity = await dbContext.Pets.FirstOrDefaultAsync(p => p.PetId == pet.PetId);
+
+            if (petEntity != null)
+            {
+                petEntity.Name = pet.Name;
+                petEntity.Breed = pet.Breed;
+                petEntity.VisualDescription = pet.VisualDescription;
+                petEntity.Allergies = pet.Allergies;
+                petEntity.TagSerialNumber = pet.TagSerialNumber;
+                await dbContext.SaveChangesAsync();
+            }
+
+            return Ok(petEntity);
         }
 
     }

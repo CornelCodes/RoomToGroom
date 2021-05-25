@@ -82,6 +82,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("[action]")]
         public async Task<IActionResult> Register([FromBody]RegisterModel registerModel)
         {

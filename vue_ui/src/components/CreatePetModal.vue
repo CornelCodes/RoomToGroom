@@ -4,21 +4,41 @@
       <h5>Create New Pet</h5>
     </div>
     <div class="row" id="name">
-      <input type="text" class="form-control" placeholder="Name" />
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Name"
+        v-model="newPet.name"
+      />
     </div>
     <div class="row" id="breed">
-      <input type="text" class="form-control" placeholder="Breed" />
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Breed"
+        v-model="newPet.breed"
+      />
+    </div>
+    <div class="row" id="serial-number">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Tag Serial Number:"
+        v-model="newPet.tagSerialNumber"
+      />
     </div>
     <div class="row" id="description">
       <h5>Description:</h5>
-      <textarea></textarea>
+      <textarea v-model="newPet.visualDescription"></textarea>
     </div>
     <div class="row" id="allergies">
       <h5>Allergies:</h5>
-      <textarea></textarea>
+      <textarea v-model="newPet.allergies"></textarea>
     </div>
     <div class="row" id="actions">
-      <button type="button" class="btn btn-primary">Create</button>
+      <button type="button" class="btn btn-primary" @click="createPet">
+        Create
+      </button>
       <button type="button" class="btn btn-danger" @click="cancel">
         Cancel
       </button>
@@ -27,10 +47,43 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
+  props: {
+    customerId: Number,
+  },
+  data() {
+    return {
+      newPet: {
+        name: "",
+        breed: "",
+        tagSerialNumber: "",
+        visualDescription: "",
+        allergies: "",
+        customerId: this.customerId,
+      },
+    };
+  },
+
   methods: {
+    ...mapActions({
+      create: "pets/create",
+    }),
+
     cancel() {
       this.$emit("close");
+    },
+
+    createPet() {
+      console.log(this.newPet);
+      this.create(this.newPet)
+        .then(() => {
+          this.$emit("close");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
@@ -54,12 +107,17 @@ export default {
 }
 
 #name input {
-  width: 50%;
+  width: 45%;
+  margin: 5px;
+}
+
+#serial-number input {
+  width: 45%;
   margin: 5px;
 }
 
 #breed input {
-  width: 50%;
+  width: 45%;
   margin: 5px;
 }
 

@@ -103,14 +103,17 @@
     </div>
 
     <div class="edit-modal" v-if="showEditCustomer">
-      <EditModal @close="toggleShowEditCustomer" :customer="customerToEdit" />
+      <CustomerDetailsModal
+        @close="closeEditCustomer"
+        :customer="customerToEdit"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import NavBar from "../components/NavBar";
-import EditModal from "../components/EditModal";
+import CustomerDetailsModal from "../components/CustomerDetailsModal";
 import { mapActions } from "vuex";
 
 export default {
@@ -136,14 +139,20 @@ export default {
   },
   components: {
     NavBar,
-    EditModal,
+    CustomerDetailsModal,
   },
   methods: {
     ...mapActions({
-      getCustomers: "customers/getAllCustomers",
+      getAll: "customers/getAllCustomers",
       delete: "customers/delete",
       update: "customers/update",
+      create: "customers/create",
     }),
+
+    closeEditCustomer() {
+      this.showEditCustomer = false;
+      this.customerToEdit = null;
+    },
 
     editCustomer(customer) {
       if (this.showEditCustomer) {
@@ -163,7 +172,13 @@ export default {
       this.delete(customer.customerId);
     },
 
-    updateCustomer() {},
+    updateCustomer() {
+      this.update();
+    },
+
+    createCustomer() {
+      this.create(this.newCustomer);
+    },
 
     //Toggles the create customer inputs
     toggleShowCreateCustomer() {
@@ -177,7 +192,7 @@ export default {
 
   mounted() {
     this.customers = [];
-    this.getCustomers();
+    this.getAll();
   },
 };
 </script>
@@ -193,28 +208,11 @@ td button {
   margin: 1px;
 }
 
-.selected {
-  background: blue;
-}
-
 .sticky button {
   position: absolute;
   right: 20px;
   bottom: 20px;
   padding: 10px;
-}
-
-.container {
-  display: flex;
-  padding-top: 10px;
-}
-
-.customer-list {
-  position: fixed;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: grey;
 }
 
 .navbar {

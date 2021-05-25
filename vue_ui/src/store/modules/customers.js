@@ -76,9 +76,10 @@ export default {
         },
 
         //Create new customer
-        async createCustomer()
+        async create()
         {
-            await axios.post("api/customer", this.newCustomer, {
+            await axios.post("api/customer/post", {
+                'Customer': this.newCustomer,
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -93,6 +94,7 @@ export default {
                 .catch((err) =>
                 {
                     console.log(err);
+                    console.log(`Token: :${localStorage.getItem('token')}`);
                 });
 
         }

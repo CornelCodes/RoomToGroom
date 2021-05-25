@@ -1,26 +1,13 @@
 <template>
-<div class="currentView">
-  <router-view></router-view>
-</div>
+  <div class="currentView">
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
-
 export default {
-  name: 'App',
-  data(){
-    return{
-      user: null,
-      signedIn: false,
-    }
-  },
-  methods:{
-    setUser(value){
-      this.signedIn = true;
-      user = value;
-    }
-  },
-}
+  name: "App",
+};
 </script>
 
 <style>
@@ -32,7 +19,7 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-.top{
+.top {
   position: fixed;
   top: 0;
   width: 100%;

@@ -27,7 +27,13 @@
           <textarea v-model="selectedPet.allergies"></textarea>
         </div>
         <div class="row" id="actions">
-          <button type="button" class="btn btn-outline-primary">Save</button>
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            @click="savePet"
+          >
+            Save
+          </button>
           <button type="button" class="btn btn-outline-danger" @click="cancel">
             Cancel
           </button>
@@ -38,14 +44,25 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   props: {
     selectedPet: Object,
   },
 
   methods: {
+    ...mapActions({
+      update: "pets/update",
+    }),
+
     cancel() {
       this.$emit("close");
+    },
+
+    savePet() {
+      selectedPet;
+      console.log(this.selectedPet);
+      // this.update(this.selectedPet);
     },
   },
 };
@@ -63,8 +80,7 @@ export default {
 }
 
 #image img {
-  width: 85%;
-  height: 85%;
+  width: 90%;
 }
 
 #name {

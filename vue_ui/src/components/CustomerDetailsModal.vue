@@ -26,7 +26,7 @@
       </div>
 
       <div class="row" id="customer-since">
-        Customer since:{{ customer.customerSince.toString() }}
+        Customer Since: {{ customerSinceDate }}
       </div>
 
       <div class="row" id="groom-day">
@@ -62,7 +62,10 @@
     </div>
 
     <div id="create-pet" v-if="showCreatePet">
-      <CreatePetModal @close="toggleShowCreatePet" />
+      <CreatePetModal
+        @close="toggleShowCreatePet"
+        :customerId="customer.customerId"
+      />
     </div>
   </div>
 </template>
@@ -101,6 +104,7 @@ export default {
       showPetDetails: false,
       showCreatePet: false,
       selectedPet: null,
+      customerSinceDate: null,
     };
   },
 
@@ -137,6 +141,13 @@ export default {
       console.log(this.showPetDetails);
     },
 
+    getCustomerSinceDate() {
+      var dateTimeString = this.customer.customerSinceDate;
+      var dateTimeStringArr = dateTimeString.split("T");
+      this.customerSinceDate = dateTimeStringArr[0];
+      console.log("Split date to " + dateTimeStringArr[0]);
+    },
+
     closePetDetails() {
       this.showPetDetails = false;
     },
@@ -154,6 +165,7 @@ export default {
   mounted() {
     console.log("updated");
     this.getPets();
+    // this.getCustomerSinceDate();
   },
 };
 </script>

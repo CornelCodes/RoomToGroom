@@ -47,7 +47,7 @@ namespace GroomingAPI.Controllers
         //Update customer
         [HttpPut]
         [Route("[action]")]
-        public async Task<IActionResult> Update(Customer customer)
+        public async Task<IActionResult> Update([FromBody]Customer customer)
         {
             var customerEntity = await dbContext.Customers.FirstOrDefaultAsync(c => c.CustomerId == customer.CustomerId);
 
