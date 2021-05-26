@@ -16,8 +16,9 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #111e4c;
   margin-top: 60px;
+  background: #f4f4f3;
 }
 .top {
   position: fixed;

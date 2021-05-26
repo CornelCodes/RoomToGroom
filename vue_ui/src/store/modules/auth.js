@@ -18,6 +18,8 @@ export default {
         LOG_OUT(state)
         {
             console.log("Logging Out...")
+            this.state.token = null
+            this.state.user = null
             localStorage.removeItem('token')
             localStorage.removeItem('user')
             console.log("Logged out successfuly")

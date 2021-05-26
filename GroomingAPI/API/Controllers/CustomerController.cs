@@ -103,7 +103,7 @@ namespace GroomingAPI.Controllers
                 };
                 await dbContext.Customers.AddAsync(output);
                 var result = await dbContext.SaveChangesAsync();
-                return Ok(result);
+                return Ok();
             }
             else
             {
