@@ -3,7 +3,7 @@
     <NavBar />
   </div>
 
-  <div class="container-fluid">
+  <div class="container-fluid" id="list">
     <table class="table table-striped">
       <thead>
         <tr>
@@ -217,8 +217,12 @@ td button {
 
 .navbar {
   position: fixed;
+  z-index: 10000;
   top: 0;
   width: 100%;
+  height: 20%;
+  margin: 1px;
+  padding: 1px;
 }
 
 .edit-modal {
@@ -226,5 +230,19 @@ td button {
   left: 0;
   top: 60px;
   background: white;
+}
+
+#list {
+  margin: 120px 0 0 0;
+}
+
+#list table {
+  background: #1e6fa6;
+  color: #f4f4f3;
+}
+
+#list td {
+  background: #f4f4f3;
+  color: #111e4c;
 }
 </style>

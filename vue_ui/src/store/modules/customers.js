@@ -76,10 +76,9 @@ export default {
         },
 
         //Create new customer
-        async create()
+        async create({ dispatch }, customer)
         {
-            await axios.post("api/customer/post", {
-                'Customer': this.newCustomer,
+            await axios.post("api/customer", {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -87,8 +86,7 @@ export default {
                 .then((res) =>
                 {
                     console.log("Success creating customer");
-                    this.showCreateCustomer = false;
-                    this.getCustomers();
+                    dispatch('getAllCustomers')
                     //Refresh list data
                 })
                 .catch((err) =>
