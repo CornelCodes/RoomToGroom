@@ -20,9 +20,4 @@ export default {
   margin-top: 60px;
   background: #f4f4f3;
 }
-.top {
-  position: fixed;
-  top: 0;
-  width: 100%;
-}
 </style>

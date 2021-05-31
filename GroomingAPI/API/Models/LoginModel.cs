@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace GroomingAPI.Models
 {
+    /// <summary>
+    /// Used to model data received when user attempts login
+    /// </summary>
     public class LoginModel
     {
         public string Email { get; set; }

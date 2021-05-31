@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace GroomingAPI.Models
 {
+    /// <summary>
+    /// Used to model data received when user attempts register
+    /// </summary>
     public class RegisterModel
     {
         public string Name { get; set; }

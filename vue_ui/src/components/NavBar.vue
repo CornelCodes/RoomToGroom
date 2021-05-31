@@ -40,8 +40,11 @@
             type="search"
             placeholder="Search"
             aria-label="Search"
+            v-model="searchText"
           />
-          <button class="btn btn-primary" type="submit">Search</button>
+          <button class="btn btn-primary" type="button" @click="search">
+            Search
+          </button>
         </form>
       </div>
     </div>
@@ -57,6 +60,7 @@ export default {
   data() {
     return {
       user: {},
+      searchText: "",
     };
   },
   methods: {
@@ -67,6 +71,10 @@ export default {
     async signOut() {
       await this.logOut();
       this.$router.push("/Login");
+    },
+
+    search() {
+      this.$emit("filter", this.searchText);
     },
   },
   mounted() {
@@ -85,7 +93,7 @@ export default {
 
 #nav-bar {
   position: fixed;
-  background: #f4f4f3;
+  background-color: #f4f4f3;
 }
 
 #nav-bar a {
@@ -99,14 +107,14 @@ export default {
 }
 
 #sign-out button {
-  margin: 10px 20px;
+  margin: 10px 30px;
   padding: 5px;
   background: #1e6fa6;
   color: #f4f4f3;
 }
 
 #search button {
-  margin: 10px 20px 10px 0;
+  margin: 10px 30px 10px 0;
   padding: 5px;
   background: #1e6fa6;
   color: #f4f4f3;
@@ -127,5 +135,6 @@ export default {
   width: 100px;
   height: 100px;
   margin: 0 50px 0 50px;
+  border-radius: 50%;
 }
 </style>

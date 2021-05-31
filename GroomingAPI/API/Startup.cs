@@ -22,6 +22,7 @@ namespace API
 {
     public class Startup
     {
+        //Inject appsettings config
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -32,9 +33,11 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Add dbcontext to services container and configure for SQLite
             services.AddDbContext<GroomingDbContext>(options => 
                 options.UseSqlite(Configuration["ConnectionStrings:DefaultConnection"]));
 
+            //Setup CORS policy
             services.AddCors(options => 
             {
                 options.AddPolicy("AllowOrigin", builder =>
@@ -45,6 +48,7 @@ namespace API
                 });
             });
 
+            //Setup authentication using JWT
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -60,9 +64,13 @@ namespace API
                     };
                 });
 
+            //Register UserService in the DI Container
             services.AddSingleton<IUserService, UserService>();
 
+            //Newtonsoft VS System.Text.JSON?
             services.AddControllers().AddNewtonsoftJson();
+
+            //Setup swagger for development
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });

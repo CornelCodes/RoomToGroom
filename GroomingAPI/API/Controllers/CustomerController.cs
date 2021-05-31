@@ -83,6 +83,7 @@ namespace GroomingAPI.Controllers
 
         //Create customer
         [HttpPost]
+        [Route("[action]")]
         public async Task<IActionResult> Post([FromBody]Customer customer)
         {
             var state = ModelState;

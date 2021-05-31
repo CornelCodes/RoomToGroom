@@ -51,6 +51,33 @@ export default {
                 {
                     console.log(err)
                 })
+        },
+
+        async update({ dispatch }, updatedPet)
+        {
+            await axios.put('api/Pet/Update', updatedPet, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+                .then(res =>
+                {
+                    dispatch("getAllPets");
+                    console.log('Updated ' + updatedPet.name)
+                })
+                .catch(err =>
+                {
+                    console.log(err)
+                })
+        },
+
+        async remove({ dispatch }, petId)
+        {
+            await axios.delete('api/Pet/' + petId, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                }
+            })
         }
     }
 }

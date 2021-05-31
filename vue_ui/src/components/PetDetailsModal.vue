@@ -5,18 +5,36 @@
         <img src="../assets/image-placeholder-dog.png" alt="" />
       </div>
       <div class="col">
+        <div class="row">
+          <h6>Serial No: {{ selectedPet.tagSerialNumber }}</h6>
+        </div>
         <div class="row" id="name">
-          <div class="col">
-            <h5 contenteditable v-text="selectedPet.name"></h5>
+          <div class="col-2">
+            <h6>Name:</h6>
           </div>
-          <div class="col">
-            <h6>Serial No:{{ selectedPet.tagSerialNumber }}</h6>
+
+          <div class="col-9">
+            <input
+              type="text"
+              class="form-control"
+              v-model="selectedPet.name"
+            />
           </div>
         </div>
 
         <div class="row" id="breed">
-          <h6 contenteditable v-text="selectedPet.breed"></h6>
+          <div class="col-2">
+            <h6>Breed:</h6>
+          </div>
+          <div class="col-9">
+            <input
+              type="text"
+              class="form-control"
+              v-model="selectedPet.breed"
+            />
+          </div>
         </div>
+
         <div class="row" id="serialNumber"></div>
         <div class="row" id="description">
           Description:
@@ -28,13 +46,19 @@
         </div>
         <div class="row" id="actions">
           <button
+            id="save"
             type="button"
             class="btn btn-outline-primary"
             @click="savePet"
           >
             Save
           </button>
-          <button type="button" class="btn btn-outline-danger" @click="cancel">
+          <button
+            id="cancel"
+            type="button"
+            class="btn btn-outline-danger"
+            @click="cancel"
+          >
             Cancel
           </button>
         </div>
@@ -47,7 +71,13 @@
 import { mapActions } from "vuex";
 export default {
   props: {
-    selectedPet: Object,
+    selectedPet: {
+      name: String,
+      breed: String,
+      tagSerialNumber: String,
+      visualDescription: String,
+      allergies: String,
+    },
   },
 
   methods: {
@@ -60,9 +90,8 @@ export default {
     },
 
     savePet() {
-      selectedPet;
-      console.log(this.selectedPet);
-      // this.update(this.selectedPet);
+      this.selectedPet;
+      this.update(this.selectedPet);
     },
   },
 };
@@ -110,6 +139,7 @@ export default {
 
 #actions button {
   width: 45%;
-  margin: 1% 1% 0 1%;
+  margin: 25% 5px 10px 5px;
+  padding: 5px;
 }
 </style>

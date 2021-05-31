@@ -1,14 +1,27 @@
 <template>
   <div class="container-fluid">
     <div id="edit-modal">
-      <div id="close">
-        <button
-          type="button"
-          class="btn btn-outline-danger"
-          @click="closeEditModal"
-        >
-          X
-        </button>
+      <div class="actions">
+        <div id="close">
+          <button
+            id="close"
+            type="button"
+            class="btn btn-outline-danger"
+            @click="closeEditModal"
+          >
+            X
+          </button>
+        </div>
+
+        <div id="add-pet">
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click="toggleShowCreatePet"
+          >
+            Add Pet
+          </button>
+        </div>
       </div>
 
       <div class="row" id="full-name">
@@ -26,7 +39,7 @@
       </div>
 
       <div class="row" id="customer-since">
-        Customer Since: {{ customerSinceDate }}
+        Customer Since: {{ customer.customerSince }}
       </div>
 
       <div class="row" id="groom-day">
@@ -45,16 +58,6 @@
           </li>
         </ul>
       </div>
-    </div>
-
-    <div id="actions">
-      <button
-        type="button"
-        class="btn btn-primary"
-        @click="toggleShowCreatePet"
-      >
-        Add Pet
-      </button>
     </div>
 
     <div id="pet-details" v-if="showPetDetails">
@@ -178,8 +181,10 @@ export default {
 
 #edit-modal {
   position: fixed;
+  top: 20%;
+  margin: 1px;
   width: 50%;
-  height: 90%;
+  height: auto;
   background: white;
   border: 1px solid black;
 }
@@ -187,9 +192,12 @@ export default {
 #pet-details,
 #create-pet {
   position: fixed;
+  top: 20%;
+  margin-right: 5px;
+  margin-top: 1px;
   right: 0;
-  width: 50%;
-  height: 75%;
+  width: 49%;
+  height: auto;
   background: white;
 }
 
@@ -214,12 +222,6 @@ export default {
   margin: 2px;
   padding: 5px 16px;
 }
-#close button {
-  position: fixed;
-  right: 50%;
-  margin: 5px 5px;
-  padding: 3px;
-}
 
 #customer-since {
   text-align: left;
@@ -238,9 +240,7 @@ export default {
 }
 
 #pet-list {
-  border: 1px solid black;
-  margin: 5px;
-  height: 50%;
+  height: 200px;
 }
 
 #pet-list h5 {
@@ -253,11 +253,18 @@ export default {
   margin: 5px 10px;
 }
 
-#actions button {
-  position: fixed;
-  left: 1%;
-  bottom: 2%;
+.actions button {
   margin: 5px;
   padding: 5px;
+}
+
+#close button {
+  float: right;
+}
+
+#add-pet button {
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 </style>

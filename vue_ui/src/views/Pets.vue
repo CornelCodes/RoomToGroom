@@ -30,6 +30,13 @@
             >
               Edit
             </button>
+            <button
+              type="button"
+              class="btn btn-outline-danger"
+              @click="removePet(pet.petId)"
+            >
+              Delete
+            </button>
           </td>
         </tr>
       </tbody>
@@ -61,6 +68,7 @@ export default {
   methods: {
     ...mapActions({
       getPets: "pets/getAllPets",
+      remove: "pets/remove",
     }),
 
     getDescription(description) {
@@ -84,6 +92,12 @@ export default {
         this.showPetDetailsModal = true;
         this.selectedPet = pet;
       }
+    },
+
+    removePet(petId) {
+      this.remove(petId).then(() => {
+        this.getPets();
+      });
     },
   },
   mounted() {
@@ -114,19 +128,21 @@ export default {
 }
 
 td button {
+  margin: 2px;
   padding: 1px 5px;
 }
 
 #pet-details {
   position: fixed;
-  width: 70%;
+  width: 60%;
+  min-width: 445px;
   background: white;
   top: 120px;
-  margin: 5px;
 }
 
 #list {
-  margin: 120px 0;
+  margin: 130px 1%;
+  width: 98%;
 }
 
 #list table {

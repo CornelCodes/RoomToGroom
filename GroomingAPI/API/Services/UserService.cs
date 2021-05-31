@@ -7,19 +7,24 @@ using System.Threading.Tasks;
 
 namespace GroomingAPI.Services
 {
+    /// <summary>
+    /// Handles all user/groomer related data storage and manipulation
+    /// Registered in the DI container
+    /// </summary>
     public class UserService : IUserService
     {
         private User _currentUser;
 
+        //Stores the logged in user
         public void SetUser(User currentUser)
         {
             _currentUser = currentUser;
         }
 
         /// <summary>
-        /// Gets the current users Id
+        /// Gets the current users Id if a user is logged in else returns -1
         /// </summary>
-        /// <returns>-1 if user is null and userId if not</returns>
+        /// <returns></returns>
         public long GetUserId()
         {
             if (_currentUser != null)
@@ -29,6 +34,7 @@ namespace GroomingAPI.Services
             return -1;
         }
 
+        //Sets the stored user to null
         public void LogOut()
         {
             _currentUser = null;
