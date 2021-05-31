@@ -82,7 +82,7 @@ export default {
 
     filteredCustomers() {
       return this.customers.filter((customer) => {
-        return customer.name.match(this.searchText);
+        return customer.name.toUpperCase().match(this.searchText.toUpperCase());
       });
     },
   },

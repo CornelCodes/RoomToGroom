@@ -37,10 +37,11 @@
         <form class="d-flex" v-else id="search">
           <input
             class="form-control me-2"
-            type="search"
+            type="text"
             placeholder="Search"
             aria-label="Search"
             v-model="searchText"
+            v-on:input="search"
           />
           <button class="btn btn-primary" type="button" @click="search">
             Search
