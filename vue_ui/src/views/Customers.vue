@@ -1,6 +1,6 @@
 <template>
   <div class="nav-bar">
-    <NavBar />
+    <NavBar @filter="filter" />
   </div>
 
   <div class="container-fluid" id="list">
@@ -16,17 +16,16 @@
       </thead>
 
       <tbody>
-        <tr v-for="customer in customers" :key="customer.customerId">
+        <tr v-for="customer in filteredCustomers" :key="customer.customerId">
           <td>{{ customer.name }}</td>
           <td>{{ customer.surname }}</td>
           <td>{{ customer.contactNumber }}</td>
           <td>{{ customer.email }}</td>
-          <td>
+          <td id="edit">
             <button
               type="button"
               class="btn btn-primary"
               @click="editCustomer(customer)"
-              id="edit"
             >
               Edit
             </button>
@@ -40,62 +39,20 @@
             </button>
           </td>
         </tr>
-        <tr v-if="showCreateCustomer" class="form-group">
-          <td>
-            <input
-              type="text"
-              class="form-control"
-              v-model="newCustomer.name"
-              placeholder="Name"
-            />
-          </td>
-
-          <td>
-            <input
-              type="text"
-              class="form-control"
-              v-model="newCustomer.surname"
-              placeholder="Surname"
-            />
-          </td>
-
-          <td>
-            <input
-              type="text"
-              class="form-control"
-              v-model="newCustomer.contactNumber"
-              placeholder="Contact No"
-            />
-          </td>
-
-          <td>
-            <input
-              type="text"
-              class="form-control"
-              v-model="newCustomer.email"
-              placeholder="Email"
-            />
-          </td>
-
-          <td>
-            <button
-              type="button"
-              class="btn btn-outline-primary"
-              @click="createCustomer"
-            >
-              Add
-            </button>
-          </td>
-        </tr>
       </tbody>
     </table>
+
+    <div class="create-modal" v-if="showCreateCustomer">
+      <CreateCustomerModal @close="closeCreateCustomer" />
+    </div>
 
     <div class="sticky">
       <div class="create">
         <button
           type="button"
-          class="btn btn-outline-primary"
+          class="btn btn-primary"
           @click="toggleShowCreateCustomer"
+          :disabled="showCreateCustomer"
         >
           Create Customer
         </button>
@@ -114,6 +71,7 @@
 <script>
 import NavBar from "../components/NavBar";
 import CustomerDetailsModal from "../components/CustomerDetailsModal";
+import CreateCustomerModal from "../components/CreateCustomerModal";
 import { mapActions } from "vuex";
 
 export default {
@@ -121,10 +79,17 @@ export default {
     customers() {
       return this.$store.state.customers.userCustomers;
     },
+
+    filteredCustomers() {
+      return this.customers.filter((customer) => {
+        return customer.name.match(this.searchText);
+      });
+    },
   },
 
   data() {
     return {
+      unfilteredCustomers: this.customers,
       selectedCustomer: null,
       showCreateCustomer: false,
       showEditCustomer: false,
@@ -135,12 +100,16 @@ export default {
         email: "",
       },
       customerToEdit: null,
+      searchText: "",
     };
   },
+
   components: {
     NavBar,
     CustomerDetailsModal,
+    CreateCustomerModal,
   },
+
   methods: {
     ...mapActions({
       getAll: "customers/getAllCustomers",
@@ -149,9 +118,18 @@ export default {
       create: "customers/create",
     }),
 
+    filter(searchText) {
+      this.searchText = searchText;
+      console.log(this.searchText);
+    },
+
     closeEditCustomer() {
       this.showEditCustomer = false;
       this.customerToEdit = null;
+    },
+
+    closeCreateCustomer() {
+      this.showCreateCustomer = false;
     },
 
     editCustomer(customer) {
@@ -208,13 +186,6 @@ td button {
   margin: 1px;
 }
 
-.sticky button {
-  position: absolute;
-  right: 20px;
-  bottom: 20px;
-  padding: 10px;
-}
-
 .navbar {
   position: fixed;
   z-index: 10000;
@@ -225,6 +196,15 @@ td button {
   padding: 1px;
 }
 
+.create-modal {
+  position: absolute;
+  left: 25%;
+  top: 60px;
+  width: 50%;
+  min-width: 380px;
+  background: white;
+}
+
 .edit-modal {
   position: absolute;
   left: 0;
@@ -233,12 +213,28 @@ td button {
 }
 
 #list {
-  margin: 120px 0 0 0;
+  position: fixed;
+  top: 20%;
 }
 
 #list table {
+  margin: 1%;
+  width: 98%;
   background: #1e6fa6;
   color: #f4f4f3;
+}
+
+#list button {
+  background-color: #1e6fa6;
+}
+
+.create button {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  padding: 10px;
+  margin-right: 5px;
+  background-color: #1e6fa6;
 }
 
 #list td {

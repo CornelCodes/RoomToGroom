@@ -3,7 +3,8 @@ import axios from "axios"
 export default {
     namespaced: true,
     state: {
-        userCustomers: []
+        userCustomers: [],
+        events: [],
     },
 
     mutations: {
@@ -13,6 +14,14 @@ export default {
             console.log(customers)
         },
 
+        ADD_EVENTS(state, events)
+        {
+            events.forEach(event =>
+            {
+                state.events.push(event)
+                console.log("Event: " + event + " added")
+            });
+        }
     },
 
     actions: {
@@ -51,6 +60,12 @@ export default {
                 })
         },
 
+        //Get all the groom days and frequencies
+        async getEvents({ commit })
+        {
+            console.log('Getting events')
+        },
+
         //Delete customer 
         async delete({ dispatch }, customerId)
         {
@@ -78,7 +93,7 @@ export default {
         //Create new customer
         async create({ dispatch }, customer)
         {
-            await axios.post("api/customer", {
+            await axios.post("api/customer/Post", customer, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -92,7 +107,6 @@ export default {
                 .catch((err) =>
                 {
                     console.log(err);
-                    console.log(`Token: :${localStorage.getItem('token')}`);
                 });
 
         }

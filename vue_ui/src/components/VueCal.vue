@@ -4,6 +4,7 @@
       <vue-cal
         :time="false"
         :disable-views="['years', 'year']"
+        :events="events"
         class="vuecal--blue-theme"
       >
       </vue-cal>
@@ -14,34 +15,23 @@
 <script>
 import VueCal from "vue-cal";
 import "vue-cal/dist/vuecal.css";
+import { mapActions } from "vuex";
 export default {
   components: {
     VueCal,
   },
   data() {
     return {
-      appointmentCount: null,
-      appointments: [
-        {
-          appointment: {
-            time: null,
-            description: null,
-          },
-        },
-      ],
+      events: [],
     };
   },
   methods: {
-    getAppointments() {
-      axios.get("api/Appointment").then((res) => {
-        if (res != null) {
-          this.appointments = res.data;
-        }
-      });
-    },
+    ...mapActions({
+      getEvents: "customers/getEvents",
+    }),
   },
-  mounted() {
-    this.getAppointments();
+  created() {
+    this.getEvents();
   },
 };
 </script>
@@ -51,8 +41,9 @@ export default {
 .calendar {
   position: absolute;
   height: 70%;
+  min-height: 400px;
+  top: 100px;
   margin: 2.5%;
-  bottom: 20px;
   width: 95%;
   color: #1e6fa6;
 }

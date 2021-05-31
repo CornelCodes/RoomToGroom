@@ -3,23 +3,26 @@
     <NavBar :isHome="isActive" />
   </div>
   <div class="calendar">
-    <AppointmentCalendar />
+    <VueCal />
   </div>
 </template>
 
 <script>
-import AppointmentCalendar from "../components/AppointmentCalendar";
+import VueCal from "../components/VueCal";
 import NavBar from "../components/NavBar";
 
 export default {
   data() {
     return {
+      //Controls the navbar
       isActive: false,
+
+      customers: [],
     };
   },
   methods: {},
   components: {
-    AppointmentCalendar,
+    VueCal,
     NavBar,
   },
   created() {
@@ -42,10 +45,11 @@ export default {
 }
 
 .navbar {
+  z-index: 10000;
   position: fixed;
   top: 0;
   width: 100%;
-  height: 20%;
+  height: 8rem;
   margin: 1px;
   padding: 1px;
 }
