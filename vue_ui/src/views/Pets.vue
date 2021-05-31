@@ -1,6 +1,6 @@
 <template>
   <div class="nav-bar">
-    <NavBar />
+    <NavBar @filter="filter" />
   </div>
   <div class="container-fluid" id="list">
     <table class="table table-striped">
@@ -16,7 +16,7 @@
       </thead>
 
       <tbody>
-        <tr v-for="pet in pets" :key="pet.petId">
+        <tr v-for="pet in filteredPets" :key="pet.petId">
           <td>{{ pet.name }}</td>
           <td>{{ pet.breed }}</td>
           <td>{{ pet.tagSerialNumber }}</td>
@@ -57,12 +57,18 @@ export default {
     pets() {
       return this.$store.state.pets.userPets;
     },
+    filteredPets() {
+      return this.pets.filter((pet) => {
+        return pet.name.toUpperCase().match(this.searchText.toUpperCase());
+      });
+    },
   },
 
   data() {
     return {
       showPetDetailsModal: false,
       selectedPet: null,
+      searchText: "",
     };
   },
   methods: {
@@ -70,6 +76,10 @@ export default {
       getPets: "pets/getAllPets",
       remove: "pets/remove",
     }),
+
+    filter(searchText) {
+      this.searchText = searchText;
+    },
 
     getDescription(description) {
       //Shortens the description and returns it
