@@ -24,14 +24,14 @@
           <td id="edit">
             <button
               type="button"
-              class="btn btn-primary"
+              class="btn btn-outline-primary"
               @click="editCustomer(customer)"
             >
               Edit
             </button>
             <button
               type="button"
-              class="btn btn-danger"
+              class="btn btn-outline-danger"
               @click="deleteCustomer(customer)"
               id="edit"
             >
@@ -89,16 +89,9 @@ export default {
 
   data() {
     return {
-      unfilteredCustomers: this.customers,
       selectedCustomer: null,
       showCreateCustomer: false,
       showEditCustomer: false,
-      newCustomer: {
-        name: "",
-        surname: "",
-        contactNumber: "",
-        email: "",
-      },
       customerToEdit: null,
       searchText: "",
     };
@@ -222,10 +215,6 @@ td button {
   width: 98%;
   background: #1e6fa6;
   color: #f4f4f3;
-}
-
-#list button {
-  background-color: #1e6fa6;
 }
 
 .create button {

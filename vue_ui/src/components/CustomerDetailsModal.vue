@@ -94,7 +94,14 @@ export default {
   },
 
   props: {
-    customer: Object,
+    customer: {
+      name: String,
+      surname: String,
+      email: String,
+      contactNumber: String,
+      customerSinceDate: Date,
+      groomDay: Number,
+    },
   },
 
   components: {

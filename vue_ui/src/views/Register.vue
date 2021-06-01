@@ -1,89 +1,74 @@
 <template>
   <div class="register-box">
-  <h2>Register</h2>
-  <form>
-    <div class="user-box">
-      <input type="text" required="true" v-model="name">
-      <label>Name</label>
-    </div>
-    <div class="user-box">
-      <input type="text" required="true" v-model="email">
-      <label>Email</label>
-    </div>
-    <div class="user-box">
-      <input type="password" required="true" v-model="password">
-      <label>Password</label>
-    </div>
-    <div class="user-box">
-      <input type="password" required="true" v-model="confirmPassword">
-      <label>Confirm Password</label>
-    </div>
-    <a @click="register">
-      Submit
-    </a>
-    <a href="/Login">
-      Login
-    </a>
-  </form>
-</div>
+    <h2>Register</h2>
+    <form>
+      <div class="user-box">
+        <input type="text" required="true" v-model="name" />
+        <label>Name</label>
+      </div>
+      <div class="user-box">
+        <input type="text" required="true" v-model="email" />
+        <label>Email</label>
+      </div>
+      <div class="user-box">
+        <input type="password" required="true" v-model="password" />
+        <label>Password</label>
+      </div>
+      <div class="user-box">
+        <input type="password" required="true" v-model="confirmPassword" />
+        <label>Confirm Password</label>
+      </div>
+      <a @click="register"> Submit </a>
+      <a href="/Login"> Login </a>
+    </form>
+  </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions } from "vuex";
 export default {
-components:{
-},
-data(){
-  return{
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  }
-},
-methods:{
-  ...mapActions({
-      attemptRegister: 'auth/register'
+  components: {},
+  data() {
+    return {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    };
+  },
+  methods: {
+    ...mapActions({
+      attemptRegister: "auth/register",
     }),
-  register(){
-    var user = {
-      'name': this.name,
-      'email': this.email,
-      'password': this.password,
-    }
-    
-    if(user.name != '' && user.name.length > 2){
-      if(user.email != ''){
-        if(user.password != ''){
-          if(user.password === this.confirmPassword){
-            this.attemptRegister(user)
-            .then(() => {
-              console.log(`${user.name} registered successfully`)
-              this.$router.push('/Login')
-            })
-            .catch(err => {
-              alert('Register failed')
-              console.log(err)
-            })
+    async register() {
+      var user = {
+        name: this.name,
+        email: this.email,
+        password: this.password,
+      };
+
+      if (user.name != "" && user.name.length > 2) {
+        if (user.email != "") {
+          if (user.password != "") {
+            if (user.password === this.confirmPassword) {
+              await this.attemptRegister(user).then((res) => {
+                console.log("?:" + res);
+              });
+            } else {
+              alert("Passwords do not match");
+            }
+          } else {
+            alert("Please enter password");
           }
-          else{
-            alert('Passwords do not match')
-          }
+        } else {
+          alert("Please enter valid email address");
         }
-        else{
-          alert('Please enter password')
-        }
+      } else {
+        alert("Name must be longer than 2 characters\n");
       }
-      else{
-        alert('Please enter valid email address')
-      }
-    }
-    else{
-      alert('Name must be longer than 2 characters\n')
-    }
-  }
-}
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -91,8 +76,8 @@ html {
   height: 100%;
 }
 body {
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
   font-family: sans-serif;
   background: linear-gradient(#141e30, #243b55);
 }
@@ -104,9 +89,9 @@ body {
   width: 400px;
   padding: 40px;
   transform: translate(-50%, -50%);
-  background: rgba(0,0,0,.8);
+  background: rgba(0, 0, 0, 0.8);
   box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
   border-radius: 10px;
 }
 
@@ -134,13 +119,13 @@ body {
 }
 .register-box .user-box label {
   position: absolute;
-  top:0;
+  top: 0;
   left: 0;
   padding: 10px 0;
   font-size: 16px;
   color: #fff;
   pointer-events: none;
-  transition: .5s;
+  transition: 0.5s;
 }
 
 .register-box .user-box input:focus ~ label,
@@ -160,19 +145,17 @@ body {
   text-decoration: none;
   text-transform: uppercase;
   overflow: hidden;
-  transition: .5s;
+  transition: 0.5s;
   margin-top: 40px;
-  letter-spacing: 4px
+  letter-spacing: 4px;
 }
 
 .register-box a:hover {
   background: #03e9f4;
   color: #fff;
   border-radius: 5px;
-  box-shadow: 0 0 5px #03e9f4,
-              0 0 25px #03e9f4,
-              0 0 50px #03e9f4,
-              0 0 100px #03e9f4;
+  box-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
+    0 0 100px #03e9f4;
 }
 
 .register-box a span {
@@ -193,7 +176,8 @@ body {
   0% {
     left: -100%;
   }
-  50%,100% {
+  50%,
+  100% {
     left: 100%;
   }
 }
@@ -205,14 +189,15 @@ body {
   height: 100%;
   background: linear-gradient(180deg, transparent, #03e9f4);
   animation: btn-anim2 1s linear infinite;
-  animation-delay: .25s
+  animation-delay: 0.25s;
 }
 
 @keyframes btn-anim2 {
   0% {
     top: -100%;
   }
-  50%,100% {
+  50%,
+  100% {
     top: 100%;
   }
 }
@@ -224,14 +209,15 @@ body {
   height: 2px;
   background: linear-gradient(270deg, transparent, #03e9f4);
   animation: btn-anim3 1s linear infinite;
-  animation-delay: .5s
+  animation-delay: 0.5s;
 }
 
 @keyframes btn-anim3 {
   0% {
     right: -100%;
   }
-  50%,100% {
+  50%,
+  100% {
     right: 100%;
   }
 }
@@ -243,16 +229,16 @@ body {
   height: 100%;
   background: linear-gradient(360deg, transparent, #03e9f4);
   animation: btn-anim4 1s linear infinite;
-  animation-delay: .75s
+  animation-delay: 0.75s;
 }
 
 @keyframes btn-anim4 {
   0% {
     bottom: -100%;
   }
-  50%,100% {
+  50%,
+  100% {
     bottom: 100%;
   }
 }
-
 </style>

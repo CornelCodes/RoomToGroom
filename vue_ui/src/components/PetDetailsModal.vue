@@ -104,7 +104,7 @@ export default {
 }
 
 #modal {
-  border: 1px solid black;
+  border: 1px solid #111e4c;
   padding: 5px;
 }
 

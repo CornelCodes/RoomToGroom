@@ -86,26 +86,45 @@ namespace API.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Register([FromBody]RegisterModel registerModel)
         {
-            var state = ModelState;
-            try
-            {
-                await _dbContext.Users.AddAsync(new User()
-                {
-                    Name = registerModel.Name,
-                    Email = registerModel.Email,
-                    Password = registerModel.Password,
-                    RegisterDate = DateTime.Now,
-                    LastLogin = DateTime.Now,
-                    Customers = null
-                });
-                await _dbContext.SaveChangesAsync();
+            var existingUser = await _dbContext.Users.Where(u => u.Email == registerModel.Email).SingleOrDefaultAsync();
 
-                return Ok();
-            }
-            catch (Exception)
+            if (ModelState.IsValid)
             {
-                return Unauthorized();
+                if(existingUser == null)
+                {
+                    User newUser = new User()
+                    {
+                        Name = registerModel.Name,
+                        Email = registerModel.Email,
+                        Password = registerModel.Password,
+                        RegisterDate = DateTime.Now,
+                        LastLogin = DateTime.Now,
+                        Customers = null
+                    };
+
+                    await _dbContext.Users.AddAsync(newUser);
+
+                    try
+                    {
+                        await _dbContext.SaveChangesAsync();
+                        return Ok();
+                    }
+                    catch (Exception)
+                    {
+                        return Conflict();
+                    }
+
+                }
+                else
+                {
+                    return Conflict(existingUser);
+                }
             }
+            else
+            {
+                return Conflict(ModelState);
+            }
+
         }
     }
 }

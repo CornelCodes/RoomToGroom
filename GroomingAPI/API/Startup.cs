@@ -67,7 +67,6 @@ namespace API
             //Register UserService in the DI Container
             services.AddSingleton<IUserService, UserService>();
 
-            //Newtonsoft VS System.Text.JSON?
             services.AddControllers().AddNewtonsoftJson();
 
             //Setup swagger for development
